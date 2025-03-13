@@ -33,8 +33,8 @@ public class Timer {
      */
     public final long duration() {
         if (durationNano == 0) {
-	    durationNano = endTimeNano - startTimeNano;
-	}
+            durationNano = endTimeNano - startTimeNano;
+        }
         return durationNano;
     }
 
