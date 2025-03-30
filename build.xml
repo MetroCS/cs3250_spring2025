@@ -6,7 +6,7 @@
   <description>
     Build file for CS3250 Spring 2025
   </description>
-  <property name="version" value="20250317"/>
+  <property name="version" value="20250330"/>
   <property name="author" value="Dr. Jody Paul"/>
   <property name="copyright" value="Copyright (c) Dr. Jody Paul"/>
   <property name="license"
@@ -23,7 +23,7 @@
   <property name="api.url"     value="https://docs.oracle.com/en/java/javase/17/docs/api/" />
 
   <!-- Identify main class -->
-  <property name="main-class"  value="Demo"/>
+  <property name="main-class"  value="GameLauncher"/>
 
   <!-- Establish classpaths for production and testing. -->
   <path id="classpath">
