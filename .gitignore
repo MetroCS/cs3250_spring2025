@@ -1,5 +1,6 @@
 # Project Section
 history.dat
+reports/
 
 # Java Section
 *.class
