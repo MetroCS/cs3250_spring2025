@@ -1,6 +1,5 @@
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,7 +20,7 @@ class GameHistoryTracker implements Serializable {
      * @param gameName the name of the game played
      * @param score optional numeric score (nullable)
      */
-    public void recordPlay(String gameName, Integer score) {
+    public void recordPlay(final String gameName, final Integer score) {
         GameStats stats = statsMap.getOrDefault(gameName, new GameStats());
         stats.timesPlayed++;
         if (score != null) {
@@ -57,7 +56,7 @@ class GameHistoryTracker implements Serializable {
      * @param filename the name of the file to save to
      * @throws IOException if an I/O error occurs
      */
-    public void saveHistory(String filename) throws IOException {
+    public void saveHistory(final String filename) throws IOException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
             out.writeObject(this);
         }
@@ -68,11 +67,12 @@ class GameHistoryTracker implements Serializable {
      * @param filename the name of the file to load from
      * @return a GameHistoryTracker instance
      */
-    public static GameHistoryTracker loadHistory(String filename) {
+    public static GameHistoryTracker loadHistory(final String filename) {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
             return (GameHistoryTracker) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("No previous history found or failed to load. Starting fresh.");
+            System.out.println(
+                "No previous history found or failed to load. Starting fresh.");
             return new GameHistoryTracker();
         }
     }

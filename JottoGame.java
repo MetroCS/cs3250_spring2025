@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Optional;
 
 /**
  * A logic-based word guessing game where the player must deduce a secret
@@ -31,6 +34,7 @@ import java.util.*;
  */
 public class JottoGame implements Game {
     private static final String SECRET_WORD = "BRICK"; // Replace with randomized word from a dictionary
+    private static final int WORD_LENGTH = 5;
     private static final int MAX_GUESSES = 10;
     private final Scanner scanner = new Scanner(System.in);
 
@@ -48,7 +52,7 @@ public class JottoGame implements Game {
             System.out.print("Enter guess: ");
             String guess = scanner.nextLine().trim().toUpperCase();
 
-            if (guess.length() != 5 || !guess.matches("[A-Z]+")) {
+            if (guess.length() != WORD_LENGTH || !guess.matches("[A-Z]+")) {
                 System.out.println("Invalid input. Please enter a 5-letter word with alphabetic characters only.");
                 continue;
             }
@@ -75,7 +79,7 @@ public class JottoGame implements Game {
      * @param guess the player's guess
      * @return number of matching letters
      */
-    private int countMatchingLetters(String secret, String guess) {
+    private int countMatchingLetters(final String secret, final String guess) {
         Set<Character> secretLetters = new HashSet<>();
         for (char c : secret.toCharArray()) {
             secretLetters.add(c);
