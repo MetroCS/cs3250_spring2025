@@ -25,6 +25,10 @@
   <!-- Identify main class -->
   <property name="main-class"  value="GameLauncher"/>
 
+  <!-- pmd directories -->
+  <property name="pmd.dir" location="${lib.dir}/pmd"/>
+  <property name="pmd.reports.dir" location="${reports.dir}/pmd"/>
+
   <!-- Establish classpaths for production and testing. -->
   <path id="classpath">
     <fileset dir="${lib.dir}" includes="**/*.jar"/>
@@ -38,7 +42,7 @@
 
   <target name="all"
           description="Clean, Build, Check, Test"
-          depends="clean, compile, checkstyle, test"/>
+          depends="clean, compile, checkstyle, test, pmd"/>
 
   <target name="clean"
           description="Clean up dynamically-created files and directories">
@@ -105,6 +109,45 @@
   </target> 
 
 
+  <!-- PMD and CPD -->
+  <path id="pmd.classpath">
+    <fileset dir="${pmd.dir}">
+      <include name="*.jar"/>
+      <include name="lib/**/*.jar"/>
+    </fileset>
+    <fileset dir="${lib.dir}" includes="**/*.jar"/>
+  </path>
+
+  <target name="pmdInit">
+    <mkdir dir="${pmd.reports.dir}"/>
+  </target>
+  <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
+  <target name="pmd" description="process source with PMD" depends="pmdInit">
+    <pmd shortFilenames="true">
+      <sourceLanguage name="java" version="1.8"/>
+      <ruleset>java-basic</ruleset>
+      <ruleset>java-braces</ruleset>
+      <ruleset>java-codesize</ruleset>
+      <ruleset>java-design</ruleset>
+      <ruleset>java-empty</ruleset>
+      <ruleset>java-imports</ruleset>
+      <ruleset>java-unusedcode</ruleset>
+      <!-- <ruleset>rulesets/java/design.xml</ruleset> -->
+      <!-- <ruleset>java-comments</ruleset> -->
+      <!-- <ruleset>java-naming</ruleset> -->
+      <formatter type="html" toFile="${pmd.reports.dir}/pmd_report.html" toConsole="true">
+        <param name="linkPrefix" value="http://pmd.sourceforge.net/xref/"/>
+        <param name="linePrefix" value=".line"/>
+      </formatter>
+      <fileset dir="${src.dir}">
+        <include name="**/*.java"/>
+      </fileset>
+    </pmd>
+    <echo message="${color:cyan,bold}PMD report is at ${pmd.reports.dir}/pmd_report.html${color:reset}" />
+  </target>
+  <!-- PMD and CPD END -->
+
+
   <target name="test" description="Run tests" depends="unitTest"/>
   <target name="unitTest" depends="test.console.launcher"/>
 
@@ -141,8 +184,17 @@
       <link href="${api.url}" />
       <bottom>
         <![CDATA[<a rel="license"
-                 &copy; 2025 Dr. Jody Paul
-                 ]]>
+                 href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License"
+                 style="border-width:0;float:left;margin-right:5px;"
+                 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+                 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><i>Console Game Hub</i></span> by
+                 <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/MetroCS/cs3250_spring2025/tree/main/"
+                 property="cc:attributionName" rel="cc:attributionURL">MetroCS</a> is licensed under a
+                 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons
+                 Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Permissions beyond the scope of
+                 this license may be available at <a xmlns:cc="http://creativecommons.org/ns#"
+                 href="https://github.com/MetroCS/cs3250_spring2025/blob/main/LICENSE"
+                 rel="cc:morePermissions">https://github.com/MetroCS/cs3250_spring2025/blob/main/LICENSE</a>.]]>
       </bottom>
     </javadoc>
   </target>
@@ -160,8 +212,17 @@
       <link href="${api.url}" />
       <bottom>
         <![CDATA[<a rel="license"
-                 &copy; 2025 Dr. Jody Paul
-                 ]]>
+                 href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License"
+                 style="border-width:0;float:left;margin-right:5px;"
+                 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
+                 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><i>Console Game Hub</i></span> by
+                 <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/MetroCS/cs3250_spring2025/tree/main/"
+                 property="cc:attributionName" rel="cc:attributionURL">MetroCS</a> is licensed under a
+                 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons
+                 Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Permissions beyond the scope of
+                 this license may be available at <a xmlns:cc="http://creativecommons.org/ns#"
+                 href="https://github.com/MetroCS/cs3250_spring2025/blob/main/LICENSE"
+                 rel="cc:morePermissions">https://github.com/MetroCS/cs3250_spring2025/blob/main/LICENSE</a>.]]>
       </bottom>
     </javadoc>
   </target>
