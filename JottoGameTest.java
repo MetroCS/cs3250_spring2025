@@ -2,6 +2,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for JottoGame.
+ * @version 1
+ */
 public class JottoGameTest {
 
     @Test
@@ -25,14 +29,21 @@ public class JottoGameTest {
         assertEquals(5, matches);
     }
 
-    // Reflection-based access since countMatchingLetters is private
-    private int gameTestHelper_countMatchingLetters(JottoGame game,
-						    String secret,
-						    String guess) {
+    /**
+     * Reflection-based access since countMatchingLetters is private.
+     * @param game the Jotto game under test
+     * @param secret the secret word
+     * @param guess the player's guess word
+     * @return the value returned by the game given the secret and guess
+     *          or -1 if the reflection failed
+     */
+    private int gameTestHelper_countMatchingLetters(final JottoGame game,
+                                                    final String secret,
+                                                    final String guess) {
         try {
             var method = JottoGame.class.getDeclaredMethod("countMatchingLetters",
-							   String.class,
-							   String.class);
+                                                           String.class,
+                                                           String.class);
             method.setAccessible(true);
             return (int) method.invoke(game, secret, guess);
         } catch (Exception e) {

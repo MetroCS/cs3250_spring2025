@@ -9,10 +9,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 /**
- * Tracks history and stats of games played.
+ * Track history and stats of games played.
+ * @version 1
  */
 class GameHistoryTracker implements Serializable {
     private static final long serialVersionUID = 1L;
+    /** Collection of play stats for each game. */
     private final HashMap<String, GameStats> statsMap = new HashMap<>();
 
     /**

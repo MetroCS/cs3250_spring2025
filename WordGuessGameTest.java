@@ -6,6 +6,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests for WordGuessGame.
+ * @version 1
+ */
 public class WordGuessGameTest {
 
     @Test
@@ -52,4 +56,4 @@ public class WordGuessGameTest {
 
         System.setIn(originalIn);
     }
-} 
+}

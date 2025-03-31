@@ -6,19 +6,20 @@ import java.util.Optional;
 /**
  * A logic-based word guessing game where the player must deduce a secret
  *  5-letter word.
- *
- * In Jotto, after each guess, the player is told how many letters in their guess
- *   match the secret word, regardless of position. For example, if the secret word
- *   is "BRICK" and the player guesses "CRANE", the feedback would be
- *   "2 letters match" (because of the R and C).
- *
+ * <pre>
+ * In Jotto, after each guess, the player is told how many letters
+ *   in their guess match the secret word, regardless of position.
+ * For example, if the secret word is "BRICK" and the player guesses
+ *   "CRANE", the feedback would be "2 letters match"
+ *   (because of the R and C).
+ * 
  * Scoring Recommendation:
  * - You may give the player a fixed number of guesses (e.g., 10).
  * - A score could be calculated as (guesses remaining) or
  *     (max guesses - actual guesses used).
  * - You could also assign a bonus if they guess the word early or
  *     penalize for inefficient guessing.
- *
+ * 
  * Feedback Advice:
  * - Ensure the feedback count does not double-count repeated letters.
  *   For example, if the secret word has only one 'C' and the guess has two
@@ -31,11 +32,17 @@ import java.util.Optional;
  * - Use consistent casing (e.g., convert all to uppercase).
  * - Use Optional<Integer> for scoring to integrate with the game
  *     history tracker.
+ * </pre>
+ * @version 1
  */
 public class JottoGame implements Game {
-    private static final String SECRET_WORD = "BRICK"; // Replace with randomized word from a dictionary
+    /** Hard-coded secret word. Replace with randomized word from list. */
+    private static final String SECRET_WORD = "BRICK";
+    /** Number of letters in a word. */
     private static final int WORD_LENGTH = 5;
+    /** Maximum number of guesses allowed. */
     private static final int MAX_GUESSES = 10;
+    /** Console input. */
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -45,7 +52,9 @@ public class JottoGame implements Game {
 
     @Override
     public Optional<Integer> play() {
-        System.out.println("[Jotto] Guess the secret 5-letter word. Feedback will tell you how many letters match.");
+        System.out.println("[Jotto] Guess the secret "
+                           + WORD_LENGTH + "-letter word. "
+                           + "You will be shown how many letters matched.");
         int attemptsLeft = MAX_GUESSES;
 
         while (attemptsLeft > 0) {
@@ -53,13 +62,16 @@ public class JottoGame implements Game {
             String guess = scanner.nextLine().trim().toUpperCase();
 
             if (guess.length() != WORD_LENGTH || !guess.matches("[A-Z]+")) {
-                System.out.println("Invalid input. Please enter a 5-letter word with alphabetic characters only.");
+                System.out.println("Invalid input. "
+                                   + "Please enter a "
+                                   + WORD_LENGTH + "-letter word "
+                                   + "with alphabetic characters only.");
                 continue;
             }
 
             if (guess.equals(SECRET_WORD)) {
                 System.out.println("Congratulations! You guessed the word.");
-                return Optional.of(attemptsLeft); // Higher score for fewer guesses used
+                return Optional.of(attemptsLeft);
             } else {
                 int matches = countMatchingLetters(SECRET_WORD, guess);
                 System.out.println("Letters in common: " + matches);
@@ -67,7 +79,8 @@ public class JottoGame implements Game {
             }
         }
 
-        System.out.println("You ran out of guesses. The word was: " + SECRET_WORD);
+        System.out.println("You ran out of guesses. "
+                           + "The word was: " + SECRET_WORD);
         return Optional.of(0);
     }
 

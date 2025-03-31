@@ -5,8 +5,11 @@ import java.util.Optional;
  * The player controls a "snake" that moves around a grid, collecting food
  *   and growing in length.
  * The game ends if the snake runs into itself or the edge of the grid.
- *
- * Simulate the game board with a 2D array and display it using text-based output.
+ * <pre>
+ * Simulate the game board with a 2D array.
+ * Display the game using text-based output.
+ * </pre>
+ * @version 1
  */
 class SnakeGame implements Game {
     public String getName() { return "Snake"; }
