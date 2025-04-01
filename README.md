@@ -10,7 +10,7 @@ This project is a collaborative software development platform
 designed for undergraduate CS students, featuring a
 console-based arcade of classic and logic-driven games.
 
-It is intened to help students practice software
+It is intended to help students practice software
 development principles (such as, agile development,
 test-driven development, object-oriented design, pair-programming,
 and refactoring) through fun and meaningful work.
