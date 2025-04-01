@@ -77,7 +77,7 @@ public class GameLauncher {
                     Game game = games.get(choice - 1);
                     Optional<Integer> score = game.play();
                     historyTracker.recordPlay(game.getName(),
-					      score.orElse(null));
+                                              score.orElse(null));
                 } else {
                     System.out.println("Invalid choice.");
                 }
