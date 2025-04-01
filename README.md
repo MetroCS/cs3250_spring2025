@@ -4,6 +4,28 @@ Repository for explorations of software development
 
 ---
 ---
+## Current Project
+### Console Game Hub
+This project is a collaborative software development platform
+designed for undergraduate CS students, featuring a
+console-based arcade of classic and logic-driven games.
+
+It is intened to help students practice software
+development principles (such as, agile development,
+test-driven development, object-oriented design, pair-programming,
+and refactoring) through fun and meaningful work.
+
+The goal is to reinforce core and agile software development
+concepts and practices by contributing in an engaging,
+real-world context.
+
+#### Test
+`ant test`
+#### Build
+`ant jar`
+#### Run
+`java -jar build/jar/ConsoleGameHub.jar`
+
 ## Activities
 
 See the [Issues](https://github.com/MetroCS/cs3250_spring2025/issues) tab for associated activities
