@@ -9,11 +9,17 @@ import java.util.Optional;
  * implementing recursive revealing, and providing flagging of cells.
  * </pre>
  * @version 1
+ * @author - Chad Ninteman
+ * @author - Jose Ocampo
+ * @author - Toren Kochman
  */
 class MineSweeperGame implements Game {
     public String getName() { return "MineSweeper"; }
     public Optional<Integer> play() {
         System.out.println("[Playing MineSweeper - Placeholder]");
+	System.out.println("[Game Description] Welcome to Minesweeper!");
+	System.out.println("Uncover cells to reveal numbers or mines. Numbers show adjacent mines.");
+	System.out.println("Flag mines abd ckear safe spaces to win!");
         return Optional.empty();
     }
 }
