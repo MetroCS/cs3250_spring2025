@@ -14,6 +14,8 @@ class NumberGuessGame implements Game {
     public String getName() { return "Number Guess"; }
     public Optional<Integer> play() {
         System.out.println("[Playing Number Guess - Placeholder]");
-        return Optional.empty();
+	System.out.println("This is a simple game where you try and guess the number I pick");
+	System.out.println(" if you are too high or too low I will let you know. Try to do it in the fewest attempts!");
+	return Optional.empty();
     }
 }
