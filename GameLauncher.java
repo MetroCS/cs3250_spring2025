@@ -6,34 +6,65 @@ import java.util.Optional;
 
 /**
  * Console Game Hub.
- * @author ChatGPT from prompts engineered by Dr. Jody Paul
+ * Provides an arcade-style launcher for multiple games,
+ * with support for scoring and history tracking.
+ *
+ * @author ChatGPT (from engineered prompts)
  * @author Dr. Jody Paul
- * @version 1
+ * @version 2 (Refactored. Includes dependency injection for testability.)
  */
 public class GameLauncher {
+    /** Default history file name. */
+    private static final String HISTORY_FILENAME = "history.dat";
+
     /** Console input. */
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
     /** Collection of known games. */
-    private final List<Game> games = new ArrayList<>();
+    private final List<Game> games;
+
     /** Game history tracker. */
-    private final GameHistoryTracker historyTracker =
-        GameHistoryTracker.loadHistory("history.dat");
+    private final GameHistoryTracker historyTracker;
+
+    /**
+     * Default constructor, used in production.
+     * Loads default games, scanner, and history tracker.
+     */
+    public GameLauncher() {
+        this(new Scanner(System.in),
+             GameHistoryTracker.loadHistory(HISTORY_FILENAME),
+             registerGames());
+    }
+
+    /**
+     * Constructor with injected testable components.
+     *
+     * @param inputScanner the console input
+     * @param tracker the tracker to record and save history
+     * @param gameList the list of games available to play
+     */
+    public GameLauncher(final Scanner inputScanner,
+                        final GameHistoryTracker tracker,
+                        final List<Game> gameList) {
+        this.scanner = inputScanner;
+        this.historyTracker = tracker;
+        this.games = gameList;
+    }
 
     /**
      * Main entry point of the application.
      * @param args command-line arguments (not used)
      */
     public static void main(final String[] args) {
-        GameLauncher launcher = new GameLauncher();
-        launcher.registerGames();
-        launcher.run();
-        launcher.saveHistory();
+        new GameLauncher().run();
     }
 
     /**
      * Registers all available games in the arcade.
+     * @return list of all available games
      */
-    private void registerGames() {
+    private static List<Game> registerGames() {
+        List<Game> games = new ArrayList<>();
         games.add(new TicTacToeGame());
         games.add(new WordGuessGame());
         games.add(new JottoGame());
@@ -46,12 +77,14 @@ public class GameLauncher {
         games.add(new MemoryMatchGame());
         games.add(new LightsOutGame());
         games.add(new MasterMindGame());
+        return games;
     }
 
     /**
-     * Runs the game launcher loop to allow user to choose and play games.
+     * Runs the game launcher loop.
+     * Allows user to choose and play games, and to view history.
      */
-    private void run() {
+    protected void run() {
         boolean running = true;
         while (running) {
             System.out.println("\n=== Console Arcade Hub ===");
@@ -90,9 +123,9 @@ public class GameLauncher {
     /**
      * Saves the history of games played.
      */
-    private void saveHistory() {
+    protected void saveHistory() {
         try {
-            historyTracker.saveHistory("history.dat");
+            historyTracker.saveHistory(HISTORY_FILENAME);
         } catch (IOException e) {
             System.out.println("game history save failed: " + e.getMessage());
         }
