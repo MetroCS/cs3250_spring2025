@@ -11,11 +11,14 @@ import java.util.Optional;
  *
  * @author ChatGPT (from engineered prompts)
  * @author Dr. Jody Paul
- * @version 2 (Refactored. Includes dependency injection for testability.)
+ * @version 2.1 (Refactored. Includes dependency injection for testability.)
  */
 public class GameLauncher {
     /** Default history file name. */
     private static final String HISTORY_FILENAME = "history.dat";
+
+    /** Name of the history file. */
+    private String historyFileName;
 
     /** Console input. */
     private final Scanner scanner;
@@ -33,7 +36,8 @@ public class GameLauncher {
     public GameLauncher() {
         this(new Scanner(System.in),
              GameHistoryTracker.loadHistory(HISTORY_FILENAME),
-             registerGames());
+             registerGames(),
+             HISTORY_FILENAME);
     }
 
     /**
@@ -42,13 +46,16 @@ public class GameLauncher {
      * @param inputScanner the console input
      * @param tracker the tracker to record and save history
      * @param gameList the list of games available to play
+     * @param fileName the name of the history tracker file
      */
     public GameLauncher(final Scanner inputScanner,
                         final GameHistoryTracker tracker,
-                        final List<Game> gameList) {
+                        final List<Game> gameList,
+                        final String fileName) {
         this.scanner = inputScanner;
         this.historyTracker = tracker;
         this.games = gameList;
+        this.historyFileName = fileName;
     }
 
     /**
@@ -56,7 +63,9 @@ public class GameLauncher {
      * @param args command-line arguments (not used)
      */
     public static void main(final String[] args) {
-        new GameLauncher().run();
+        GameLauncher launcher = new GameLauncher();
+        launcher.run();
+        launcher.saveHistory();
     }
 
     /**
@@ -88,16 +97,18 @@ public class GameLauncher {
         boolean running = true;
         while (running) {
             System.out.println("\n=== Console Arcade Hub ===");
-            for (int i = 0; i < games.size(); i++) {
-                System.out.printf("%d. %s\n", i + 1, games.get(i).getName());
+            for (int i = 0; i < this.games.size(); i++) {
+                System.out.printf("%d. %s\n",
+                                  i + 1,
+                                  this.games.get(i).getName());
             }
             System.out.println("0. Exit");
             System.out.println("H. View Game History");
             System.out.print("Choose a game: ");
 
-            String input = scanner.nextLine().trim();
+            String input = this.scanner.nextLine().trim();
             if (input.equalsIgnoreCase("H")) {
-                historyTracker.displayHistory();
+                this.historyTracker.displayHistory();
                 continue;
             }
 
@@ -106,11 +117,11 @@ public class GameLauncher {
                 if (choice == 0) {
                     running = false;
                     System.out.println("Goodbye!");
-                } else if (choice > 0 && choice <= games.size()) {
-                    Game game = games.get(choice - 1);
+                } else if (choice > 0 && choice <= this.games.size()) {
+                    Game game = this.games.get(choice - 1);
                     Optional<Integer> score = game.play();
-                    historyTracker.recordPlay(game.getName(),
-                                              score.orElse(null));
+                    this.historyTracker.recordPlay(game.getName(),
+                                                   score.orElse(null));
                 } else {
                     System.out.println("Invalid choice.");
                 }
@@ -125,7 +136,7 @@ public class GameLauncher {
      */
     protected void saveHistory() {
         try {
-            historyTracker.saveHistory(HISTORY_FILENAME);
+            this.historyTracker.saveHistory(this.historyFileName);
         } catch (IOException e) {
             System.out.println("game history save failed: " + e.getMessage());
         }
