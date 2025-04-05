@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * JUnit 5 test class for the GameLauncher.
  * Uses constructor injection and simulates console I/O to test
  * menu interaction, input validation, history recording, and file saving.
- * @version 1
+ * @version 3
  */
 public class GameLauncherTest {
 
@@ -41,6 +41,9 @@ public class GameLauncherTest {
     /** GameLauncher under test with injected components. */
     private GameLauncher launcher;
 
+    /** Temporary filename used for history file output. */
+    private String tempHistoryFileName;
+
     /**
      * Set up test environment, redirect I/O, and initialize dependencies.
      */
@@ -57,7 +60,7 @@ public class GameLauncherTest {
     }
 
     /**
-     * Restores standard input and output after each test.
+     * Restores original console input and output streams.
      */
     @AfterEach
     public void tearDown() {
@@ -66,11 +69,13 @@ public class GameLauncherTest {
     }
 
     /**
-     * Simulates a valid game selection and verifies output and history recording.
+     * Tests normal game selection and exit from the launcher.
+     *
+     * @param tempDir Temporary directory for test files
      */
     @Test
-    public void testRunValidGameSelection() {
-        provideInput("1\n0\n"); // Select game 1, then exit
+    public void testRunValidGameSelection(@TempDir final Path tempDir) {
+        provideInput("1\n0\n", tempDir); // Select game 1, then exit.
         launcher.run();
 
         String output = outContent.toString();
@@ -80,95 +85,135 @@ public class GameLauncherTest {
     }
 
     /**
-     * Simulates invalid text input and verifies error handling.
+     * Tests non-numeric input handling.
+     *
+     * @param tempDir Temporary directory for test files
      */
     @Test
-    public void testRunInvalidInput() {
-        provideInput("abc\n0\n");
+    public void testRunInvalidInput(@TempDir final Path tempDir) {
+        provideInput("abc\n0\n", tempDir);
         launcher.run();
 
         String output = outContent.toString();
-        assertTrue(output.contains("Please enter a valid number or 'H'."), "Should reject non-numeric input");
+        assertTrue(output.contains("Please enter a valid number or 'H'."),
+                   "Should reject non-numeric input");
     }
 
     /**
      * Simulates out-of-range numeric input and verifies error message.
+     *
+     * @param tempDir Temporary directory for test files
      */
     @Test
-    public void testRunInvalidGameChoice() {
-        provideInput("999\n0\n");
+    public void testRunInvalidGameChoice(@TempDir final Path tempDir) {
+        provideInput("999\n0\n", tempDir);
         launcher.run();
 
         String output = outContent.toString();
-        assertTrue(output.contains("Invalid choice."), "Should handle invalid game number");
+        assertTrue(output.contains("Invalid choice."),
+                   "Should handle invalid game number");
     }
 
     /**
      * Simulates user choosing to view history and verifies output.
+     *
+     * @param tempDir Temporary directory for test files
      */
     @Test
-    public void testRunViewHistory() {
-        provideInput("H\n0\n");
+    public void testRunViewHistory(@TempDir final Path tempDir) {
+        provideInput("H\n0\n", tempDir);
         launcher.run();
 
         String output = outContent.toString();
-        assertTrue(output.contains("=== Game Play History ==="), "Should display history header");
+        assertTrue(output.contains("=== Game Play History ==="),
+                   "Should display history header");
     }
 
     /**
-     * Verifies that saveHistory successfully writes to a file.
-     * @param tempDir Temporary directory provided by JUnit
-     * @throws IOException if file I/O fails unexpectedly
+     * Verifies that {@code saveHistory()} creates a file and writes data.
+     *
+     * @param tempDir Temporary directory for test output
+     * @throws IOException if file handling fails
      */
     @Test
     public void testSaveHistoryCreatesFile(@TempDir final Path tempDir) throws IOException {
         Path file = tempDir.resolve("testHistory.dat");
-        testHistory.recordPlay("Test Game X", 88);
+        testHistory.recordPlay("Test Game C", 56);
         testHistory.saveHistory(file.toString());
-
-        assertTrue(Files.exists(file), "Saved history file should exist");
-        assertTrue(Files.size(file) > 0, "Saved history file should not be empty");
+        assertTrue(Files.exists(file),
+                   "Saved history file should exist");
+        assertTrue(Files.size(file) > 0,
+                   "Saved history file should not be empty");
     }
 
     /**
-     * Verifies graceful handling of an exception during saveHistory.
+     * Verifies that {@code saveHistory()} handles exceptions gracefully.
+     *
+     * @param tempDir Temporary directory for test output
      */
     @Test
-    public void testSaveHistoryHandlesIOException() {
+    public void testSaveHistoryHandlesIOException(@TempDir final Path tempDir) {
+        String dummyFile = tempDir.resolve("ignored.dat").toString();
+
         GameLauncher faultyLauncher = new GameLauncher(
                 new Scanner(new ByteArrayInputStream("0\n".getBytes())),
                 testHistory,
-                testGames
+                testGames,
+                dummyFile
         ) {
-        @Override
-        protected void saveHistory() {
-            try {
-                throw new IOException("Simulated IO failure");
-            } catch (IOException e) {
-                System.out.println("game history save failed: " + e.getMessage());
+            @Override
+            protected void saveHistory() {
+                try {
+                    throw new IOException("Simulated IO failure");
+                } catch (IOException e) {
+                    System.out.println("game history save failed: " + e.getMessage());
+                }
             }
-        }
-    };
+        };
 
-    // Directly invoke the method being tested
-    faultyLauncher.saveHistory();
+        faultyLauncher.saveHistory();
 
-    String output = outContent.toString();
-    assertTrue(output.contains("game history save failed: Simulated IO failure"));
-}
+        String output = outContent.toString();
+        assertTrue(output.contains("game history save failed: Simulated IO failure"));
+    }
+
+    /**
+     * Verifies that {@code saveHistory()} persists data after {@code run()} ends.
+     *
+     * @param tempDir Temporary directory for test output
+     * @throws IOException if file handling fails
+     */
+    @Test
+    public void testHistoryFileSavedAfterRun(@TempDir final Path tempDir) throws IOException {
+        Path tempHistoryFile = tempDir.resolve("test_history_output.dat");
+        tempHistoryFileName = tempHistoryFile.toString();
+
+        GameLauncher gLauncher = new GameLauncher(
+                new Scanner(new ByteArrayInputStream("1\n0\n".getBytes())),
+                testHistory,
+                testGames,
+                tempHistoryFileName
+        );
+
+        gLauncher.run();
+        gLauncher.saveHistory();
+
+        assertTrue(Files.exists(tempHistoryFile));
+        assertTrue(Files.size(tempHistoryFile) > 0);
+    }
 
     /**
      * Replaces System.in with test input, creates launcher with injected scanner.
      *
-     * @param data console input to simulate (e.g., "1\n0\n")
+     * @param input   Input string to simulate via Scanner
+     * @param tempDir Directory to store temporary history file
      */
-    private void provideInput(final String data) {
-        ByteArrayInputStream in = new ByteArrayInputStream(data.getBytes());
+    private void provideInput(final String input, final Path tempDir) {
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         Scanner scanner = new Scanner(System.in);
-
-        // Subclass GameLauncher to access protected run()
-        launcher = new GameLauncher(scanner, testHistory, testGames) { };
+        tempHistoryFileName = tempDir.resolve("testHistory.dat").toString();
+        launcher = new GameLauncher(scanner, testHistory, testGames, tempHistoryFileName);
     }
 
     /**
