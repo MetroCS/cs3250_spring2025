@@ -15,7 +15,7 @@ class HangmanGame implements Game {
     public String getName() { return "Hangman"; }
     public Optional<Integer> play() {
 	System.out.println("Welcome to Hangman!");
-	System.out.println("Guess the hidden word one letter at a a time.");
+	System.out.println("Guess the hidden word one letter at a time.");
 	System.out.println("Each wrong guess reduces your number of tries.");
         System.out.println("[Playing Hangman - Placeholder]");
         return Optional.empty();
