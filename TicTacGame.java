@@ -3,7 +3,7 @@
  * As a player, I want to see a short description of the Tic-Tac-Toe game before it start 
  * so that I understand the rules and goals.
  */
-public class TicTacToe {
+public class TicTacToeGame {
     public static void main(String[] args) {
         // Display game description at launch (Acceptance Criteria 1)
         printGameDescription();
