@@ -12,14 +12,15 @@ import java.util.Optional;
  * @author - Chad Ninteman
  * @author - Jose Ocampo
  * @author - Toren Kochman
+ * @date - April 8th, 2025
  */
 class MineSweeperGame implements Game {
     public String getName() { return "MineSweeper"; }
     public Optional<Integer> play() {
         System.out.println("[Playing MineSweeper - Placeholder]");
 	System.out.println("[Game Description] Welcome to Minesweeper!");
-	System.out.println("Uncover cells to reveal numbers or mines. Numbers show adjacent mines.");
-	System.out.println("Flag mines abd ckear safe spaces to win!");
+	System.out.println("Uncover cells to reveal numbers or mines. Numbers show how many adjacent tiles are mined.");
+	System.out.println("Choosing a mined tile will end the game. Flag mines and clear safe spaces to win!");
         return Optional.empty();
     }
 }
