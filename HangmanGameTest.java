@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ public class HangmanGameTest{
 	void ValidNonEmptyListOfWords(){
 		List<String> words = Arrays.asList("java", "python", "kotlin");
 		String selectedWord = getRandomWord(words);
+		assertTrue(words.contains(selectedWord));
 		
 		
 	}
@@ -41,5 +43,5 @@ public class HangmanGameTest{
 		assertNull(selectedWord);
 		
 	}
-
 }
+
