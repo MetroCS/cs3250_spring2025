@@ -6,18 +6,57 @@ import java.util.Optional;
 
 /**
  * Console Game Hub.
- * @author ChatGPT from prompts engineered by Dr. Jody Paul
+ * Provides an arcade-style launcher for multiple games,
+ * with support for scoring and history tracking.
+ *
+ * @author ChatGPT (from engineered prompts)
  * @author Dr. Jody Paul
- * @version 1
+ * @version 2.1 (Refactored. Includes dependency injection for testability.)
  */
 public class GameLauncher {
+    /** Default history file name. */
+    private static final String HISTORY_FILENAME = "history.dat";
+
+    /** Name of the history file. */
+    private String historyFileName;
+
     /** Console input. */
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
     /** Collection of known games. */
-    private final List<Game> games = new ArrayList<>();
+    private final List<Game> games;
+
     /** Game history tracker. */
-    private final GameHistoryTracker historyTracker =
-        GameHistoryTracker.loadHistory("history.dat");
+    private final GameHistoryTracker historyTracker;
+
+    /**
+     * Default constructor, used in production.
+     * Loads default games, scanner, and history tracker.
+     */
+    public GameLauncher() {
+        this(new Scanner(System.in),
+             GameHistoryTracker.loadHistory(HISTORY_FILENAME),
+             registerGames(),
+             HISTORY_FILENAME);
+    }
+
+    /**
+     * Constructor with injected testable components.
+     *
+     * @param inputScanner the console input
+     * @param tracker the tracker to record and save history
+     * @param gameList the list of games available to play
+     * @param fileName the name of the history tracker file
+     */
+    public GameLauncher(final Scanner inputScanner,
+                        final GameHistoryTracker tracker,
+                        final List<Game> gameList,
+                        final String fileName) {
+        this.scanner = inputScanner;
+        this.historyTracker = tracker;
+        this.games = gameList;
+        this.historyFileName = fileName;
+    }
 
     /**
      * Main entry point of the application.
@@ -25,15 +64,16 @@ public class GameLauncher {
      */
     public static void main(final String[] args) {
         GameLauncher launcher = new GameLauncher();
-        launcher.registerGames();
         launcher.run();
         launcher.saveHistory();
     }
 
     /**
      * Registers all available games in the arcade.
+     * @return list of all available games
      */
-    private void registerGames() {
+    private static List<Game> registerGames() {
+        List<Game> games = new ArrayList<>();
         games.add(new TicTacToeGame());
         games.add(new WordGuessGame());
         games.add(new JottoGame());
@@ -46,25 +86,29 @@ public class GameLauncher {
         games.add(new MemoryMatchGame());
         games.add(new LightsOutGame());
         games.add(new MasterMindGame());
+        return games;
     }
 
     /**
-     * Runs the game launcher loop to allow user to choose and play games.
+     * Runs the game launcher loop.
+     * Allows user to choose and play games, and to view history.
      */
-    private void run() {
+    protected void run() {
         boolean running = true;
         while (running) {
             System.out.println("\n=== Console Arcade Hub ===");
-            for (int i = 0; i < games.size(); i++) {
-                System.out.printf("%d. %s\n", i + 1, games.get(i).getName());
+            for (int i = 0; i < this.games.size(); i++) {
+                System.out.printf("%d. %s\n",
+                                  i + 1,
+                                  this.games.get(i).getName());
             }
             System.out.println("0. Exit");
             System.out.println("H. View Game History");
             System.out.print("Choose a game: ");
 
-            String input = scanner.nextLine().trim();
+            String input = this.scanner.nextLine().trim();
             if (input.equalsIgnoreCase("H")) {
-                historyTracker.displayHistory();
+                this.historyTracker.displayHistory();
                 continue;
             }
 
@@ -73,11 +117,11 @@ public class GameLauncher {
                 if (choice == 0) {
                     running = false;
                     System.out.println("Goodbye!");
-                } else if (choice > 0 && choice <= games.size()) {
-                    Game game = games.get(choice - 1);
+                } else if (choice > 0 && choice <= this.games.size()) {
+                    Game game = this.games.get(choice - 1);
                     Optional<Integer> score = game.play();
-                    historyTracker.recordPlay(game.getName(),
-                                              score.orElse(null));
+                    this.historyTracker.recordPlay(game.getName(),
+                                                   score.orElse(null));
                 } else {
                     System.out.println("Invalid choice.");
                 }
@@ -90,9 +134,9 @@ public class GameLauncher {
     /**
      * Saves the history of games played.
      */
-    private void saveHistory() {
+    protected void saveHistory() {
         try {
-            historyTracker.saveHistory("history.dat");
+            this.historyTracker.saveHistory(this.historyFileName);
         } catch (IOException e) {
             System.out.println("game history save failed: " + e.getMessage());
         }
