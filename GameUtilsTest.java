@@ -13,7 +13,7 @@ import java.util.Collections;
 */
 
 
-public class HangmanGameTest{
+public class GameUtilsTest{
 	public static String getRandomWord(List<String> words){
 		
 		if (words == null || words.isEmpty()){
@@ -24,7 +24,7 @@ public class HangmanGameTest{
 		return words.get(randomIndex);
 	}
 	@Test
-	void ValidNonEmptyListOfWords(){
+	void testValidNonEmptyListOfWords(){
 		List<String> words = Arrays.asList("java", "python", "kotlin");
 		String selectedWord = getRandomWord(words);
 		assertTrue(words.contains(selectedWord));
@@ -32,16 +32,15 @@ public class HangmanGameTest{
 		
 	}
 	@Test
-	void EmptyListOfWords() {
+	void testEmptyListOfWords() {
 		List <String> words =  Collections.emptyList();
 		String selectedWord = getRandomWord(words);
 		assertNull(selectedWord);
 	}
 	@Test
-	void ListWithNull() {
+	void testListWithNull() {
 		String selectedWord = getRandomWord(null);
 		assertNull(selectedWord);
 		
 	}
 }
-
