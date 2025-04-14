@@ -1,20 +1,38 @@
 import java.util.Random;
 import java.util.List;
-import java.util.Arrays;
-public class GameUtils{
-	public static String getRandomWord(List<String>words){
-		
-		if (words == null || words.isEmpty()){
-			return null;
-			}
-		Random random = new Random();
-		int randomIndex = random.nextInt(words.size());
-		return words.get(randomIndex);
-
-	}
-	
-	public static void main(String args[]){
-		
-	}
+/**
+*This class provides utility methods for handling random word selection.
+*It contains a method to get a random word from a list of words.
+*/
+public final class GameUtils {
+    /**
+    *Prevent Instantiation.
+    */
+    private GameUtils() {
+        throw new UnsupportedOperationException("class cannot be instantiated");
+    }
+    /**
+    *Static instance used to generate random strings.
+    */
+    private static final Random RANDOM = new Random();
+    /**
+    *Returns a random word from given list.
+    *
+    *@param words A list of words from which the random word will be selected.
+    *@return A random word from the list, or null if the list is null or empty.
+    */
+    public static String getRandomWord(final List<String> words) {
+        if (words == null || words.isEmpty()) {
+            return null;
+            }
+        int randomIndex = RANDOM.nextInt(words.size());
+        return words.get(randomIndex);
+     }
+    /**
+    *Main implementation method.
+    *
+    *@param args Command-line arguments for when the program starts.
+    */
+    public static void main(final String[] args) {
+     }
 }
-
