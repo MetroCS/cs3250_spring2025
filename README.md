@@ -26,9 +26,11 @@ real-world context.
 #### Run
 `java -jar build/jar/ConsoleGameHub.jar`
 
-## Activities
+### Activities
 
-See the [Issues](https://github.com/MetroCS/cs3250_spring2025/issues) tab for associated activities
+The [Project](https://github.com/orgs/MetroCS/projects/9) contains a Kanban-style board of project activity
+
+See the [Issues](https://github.com/MetroCS/cs3250_spring2025/issues) tab for all associated user stories and tasks
 
 ---
 ## Information and Examples
