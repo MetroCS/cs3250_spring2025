@@ -14,6 +14,9 @@ class WordGuessGame implements Game {
     public String getName() { return "Word Guess"; }
     public Optional<Integer> play() {
         System.out.println("[Playing Word Guess - Placeholder]");
+	System.out.println("Welcome to Wordle!");
+	System.out.println("Try to guess the five letter word. Remember your guesses are limited.");
+	System.out.println("Enjoy the game!");
         return Optional.empty();
     }
 }
