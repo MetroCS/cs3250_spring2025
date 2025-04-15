@@ -13,9 +13,10 @@ import java.util.Optional;
 class WordGuessGame implements Game {
     public String getName() { return "Word Guess"; }
     public Optional<Integer> play() {
-        System.out.println("[Playing Word Guess - You have a limited number of attempts to guess a secert 5 letter word.]");
-	System.out.println("After each guess, the game will indicate whether the guess is correct.");
-	System.out.println("Your score is determined by the number of attempts remaining after you guessed the word correctly!");
+        System.out.println("[Playing Word Guess - Placeholder]");
+	System.out.println("Welcome to Wordle")
+	System.out.println("Try to guess the five letter word in as few guesses as possible")
+	System.out.println("Enjoy the game!")
         return Optional.empty();
     }
 }
