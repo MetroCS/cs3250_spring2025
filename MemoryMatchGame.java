@@ -10,7 +10,7 @@ import java.util.Optional;
  * <pre>
  * Manages board state and the display of revealed vs. hidden tiles.
  * </pre>
- * @version 1
+ * @version 2
  */
 class MemoryMatchGame implements Game {
     public String getName() { return "Memory Match"; }
