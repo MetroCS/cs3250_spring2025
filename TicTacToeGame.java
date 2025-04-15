@@ -20,7 +20,6 @@ public class TicTacToeGame implements Game {
 public String getName() {
   return "Tic-Tac-toe";
 }
-
 /**
 *Displays the game instructions and returns empty result
 *
@@ -37,4 +36,3 @@ public Optional <Integer> play() {
 return Optional.empty();
   }
 }  
-
