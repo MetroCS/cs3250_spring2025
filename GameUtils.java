@@ -28,11 +28,4 @@ public final class GameUtils {
         int randomIndex = RANDOM.nextInt(words.size());
         return words.get(randomIndex);
      }
-    /**
-    *Main implementation method.
-    *
-    *@param args Command-line arguments for when the program starts.
-    */
-    public static void main(final String[] args) {
-     }
 }
