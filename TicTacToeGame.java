@@ -1,28 +1,40 @@
 import java.util.Optional;
 /**
- * User Story:#14
- * As a player, I want to see a short description of the Tic-Tac-Toe game before it start 
- * so that I understand the rules and goals.
+ * A classic 3x3 two-player game adapted for single-player mode
+ * against the computer.
+ * The player and the computer take turns marking Xs and Os on a grid.
+ * The winner is the first to align three in a row (horizontally,
+ * vertically, or diagonally).
+ * <pre>
+ * Implementation may be a basic AI using heuristics or
+ * an unbeatable strategy using the Minimax algorithm.
+ * </pre>
+ * @version 2
  */
 public class TicTacToeGame implements Game {
-public String getName(){
-  return "Tic-Tac_toe";
+/**
+*Returns the name of the game 
+*
+*@return the game name 
+*/
+public String getName() {
+  return "Tic-Tac-toe";
 }
-public Optional<Integer> play(){
-   printGameDescription();
-   startGame();
+
+/**
+*Displays the game instructions and returns empty result
+*
+*@return an empty Optional
+**/
+
+public Optional <Integer> play() {
+
+     System.out.println("Welcome to Tic-Tac-Toe!.");
+     System.out.println("Objective: Be the first to get 3 of your marks in a row.");
+     System.out.println("How to play: Take turns placing x or 0 on the 3x3 grid.");
+    
+
 return Optional.empty();
-}
-
- private void printGameDescription() {
-      System.out.println("Welcome to Tic-Tac-Toe!");
-      System.out.println("Objective: Be the first to get 3 of your marks in a row.");
-      System.out.println("How to play: Take turns placing x or 0 on the 3x3 grid.\n.");
-}
-
-private void startGame() {
-     System.out.println("Game board would appear here...");
-     System.out.println(" [ Normal game logic would follow]");
   }
 }  
 
