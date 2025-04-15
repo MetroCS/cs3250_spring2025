@@ -65,6 +65,20 @@ class GameHistoryTracker implements Serializable {
     }
 
     /**
+     * Clears the history file.
+     * @param filename takes name of file to clear history from.
+     * @author Cesar Soto, Mason Proctor, Luke Ross
+     */
+    public void clearHistory(final String filename) {
+        statsMap.clear();
+	try {
+	    saveHistory(filename);
+	} catch (IOException e) {
+	    System.out.println("game history save failed: " + e.getMessage());
+	}
+    }
+
+    /**
      * Loads the game history from a file.
      * @param filename the name of the file to load from
      * @return a GameHistoryTracker instance

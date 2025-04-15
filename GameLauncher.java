@@ -104,13 +104,22 @@ public class GameLauncher {
             }
             System.out.println("0. Exit");
             System.out.println("H. View Game History");
+	    System.out.println("C. Clear Game History");
             System.out.print("Choose a game: ");
 
             String input = this.scanner.nextLine().trim();
             if (input.equalsIgnoreCase("H")) {
                 this.historyTracker.displayHistory();
                 continue;
-            }
+            } else if (input.equalsIgnoreCase("C")){
+		System.out.println("Are you sure you want to clear history?\ntype CLEAR to confirm\nor type anything else to cancel.");
+		input = scanner.nextLine();
+		if (input.equals("CLEAR")) {
+		    System.out.println("Clearing History.\n");
+		    historyTracker.clearHistory("history.dat");
+		}
+	
+	    }
 
             try {
                 int choice = Integer.parseInt(input);
@@ -126,7 +135,7 @@ public class GameLauncher {
                     System.out.println("Invalid choice.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number or 'H'.");
+                System.out.println("Please enter a valid number or 'H'.Please enter a valid number or Letters 'H' or 'C'.");
             }
         }
     }
