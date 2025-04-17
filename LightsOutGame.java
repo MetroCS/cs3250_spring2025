@@ -18,7 +18,7 @@ class LightsOutGame implements Game {
         System.out.println("Selecting a tile will change its state.");
         System.out.println("Tiles also change the state of neighboring tiles.");
         System.out.println("Turning them 'off' or 'on' as well.");
-        System.out.println("Grid but be lit in as few turns as possible.");
+        System.out.println("Grid must be lit in as few turns as possible.");
         System.out.println("Good luck!");
         return Optional.empty();
     }
