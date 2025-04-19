@@ -19,8 +19,8 @@ class NumberGuessGame implements Game {
         return "Number Guess";
     }
     /**
-    *Holding a value of primitive type int.
-    *@return an empty optional instance.
+    *Starts the game and prints game instructions.
+    *@return an empty optional instance to represent the absence of a score.
     */
     public Optional<Integer> play() {
         System.out.println("[Playing Number Guessing Game]");
