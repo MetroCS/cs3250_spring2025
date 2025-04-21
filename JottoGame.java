@@ -52,12 +52,13 @@ public class JottoGame implements Game {
 
     @Override
     public Optional<Integer> play() {
-        System.out.print("[Jotto] Guess a secret word of "
+        System.out.println("[Jotto] Guess a secret word of "
                            + WORD_LENGTH + " letters. "
                            + System.lineSeparator()
                            + "You will be shown how many letters matched."
                            + System.lineSeparator()
-                           + "Ex: \"BRICK\" matches \"BUILD\" by two letters: \"B\" and \"I\". ");
+                           + "Ex: \"BRICK\" matches \"BUILD\" by two "
+                           + "letters: \"B\" and \"I\". ");
         int attemptsLeft = MAX_GUESSES;
 
         while (attemptsLeft > 0) {
