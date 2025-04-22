@@ -17,7 +17,7 @@ public class TicTacToeGame implements Game {
 *@return the game name.
 */
 public String getName() {
-  return "Tic-Tac-toe.";
+  return "Tic-Tac-toe";
 }
 /**
 *Displays the game instructions and returns empty result.
@@ -29,7 +29,7 @@ public Optional<Integer> play() {
      System.out.println("Welcome to Tic-Tac-Toe!.");
      System.out.println("Objective: Be the first to get 3 of your "
                     + "marks in a row.");
-     System.out.println("How to play: Take turns placing x or 0 "
+     System.out.println("How to play: Take turns placing X or O "
                     + "on the 3x3 grid.");
      return Optional.empty();
   }
