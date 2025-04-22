@@ -15,7 +15,12 @@ import java.util.Optional;
 class MemoryMatchGame implements Game {
     public String getName() { return "Memory Match"; }
     public Optional<Integer> play() {
-        System.out.println("[Playing Memory Match - Placeholder]");
+    System.out.println("Welcome, You are now Playing Memory Match");
+    System.out.println("Flip Items to match pairs");
+    System.out.println("If Items dont macth flip over,  go again");
+    System.out.println("When All Items Are Matched You Win");
+    System.out.println("Have Fun!!!");
         return Optional.empty();
     }
 }
+
