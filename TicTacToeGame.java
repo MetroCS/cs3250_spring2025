@@ -17,7 +17,7 @@ public class TicTacToeGame implements Game {
 *@return the game name.
 */
 public String getName() {
-  return "Tic-Tac-toe";
+  return "Tic-Tac-Toe";
 }
 /**
 *Displays the game instructions and returns empty result.
