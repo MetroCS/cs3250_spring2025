@@ -14,8 +14,9 @@ import java.util.Optional;
  * @author - Toren Kochman
  */
 class MineSweeperGame implements Game {
-    public String getName() { return 
-    "MineSweeper"; }
+    public String getName() {
+        return "MineSweeper";
+    }
     public Optional<Integer> play() {
         System.out.println("[Playing MineSweeper - Placeholder]");
         System.out.println("Welcome to Minesweeper!");
