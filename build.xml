@@ -6,7 +6,7 @@
   <description>
     Build file for CS3250 Spring 2025
   </description>
-  <property name="version" value="20250401"/>
+  <property name="version" value="20250409"/>
   <property name="author" value="Dr. Jody Paul"/>
   <property name="copyright" value="Copyright (c) Dr. Jody Paul"/>
   <property name="license"
@@ -72,12 +72,13 @@
     </jar>
   </target>
 
-  <target name="run" description="Run the application" depends="jar">
-    <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+  <target name="run" description="Prepare to run the application" depends="jar">
+    <!-- java jar="${jar.dir}/${ant.project.name}.jar" fork="true" -->
+    <echo message="Product ready to run using:  java -jar ${jar.dir}/${ant.project.name}.jar" />
   </target>
 
   <target name="main"
-          description="Clean, Build, and Run"
+          description="Clean and Prepare to Run"
           depends="clean,run"/>
 
   <target name="init">
@@ -143,7 +144,7 @@
         <include name="**/*.java"/>
       </fileset>
     </pmd>
-    <echo message="${color:cyan,bold}PMD report is at ${pmd.reports.dir}/pmd_report.html${color:reset}" />
+    <echo message="PMD report is at ${pmd.reports.dir}/pmd_report.html" />
   </target>
   <!-- PMD and CPD END -->
 

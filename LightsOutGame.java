@@ -13,7 +13,13 @@ import java.util.Optional;
 class LightsOutGame implements Game {
     public String getName() { return "Lights Out"; }
     public Optional<Integer> play() {
-        System.out.println("[Playing Lights Out - Placeholder]");
+        System.out.println("Welcome to Lights Out!");
+        System.out.println("The tiles have an 'on' or 'off' function.");
+        System.out.println("Selecting a tile will change its state.");
+        System.out.println("Tiles also change the state of neighboring tiles.");
+        System.out.println("Turning them 'off' or 'on' as well.");
+        System.out.println("Grid must be lit in as few turns as possible.");
+        System.out.println("Good luck!");
         return Optional.empty();
     }
 }
