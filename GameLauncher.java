@@ -86,6 +86,7 @@ public class GameLauncher {
         games.add(new MemoryMatchGame());
         games.add(new LightsOutGame());
         games.add(new MasterMindGame());
+        games.add(new NightfallGame());
         return games;
     }
 

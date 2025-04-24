@@ -1,11 +1,18 @@
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This is an example Main class for the purposes of expressing how I think
  * the engine will function. The main() does not actually implement anything of
- * consequence but does express the general flow in a block comment. 
+ * consequence but does express the general flow in a block comment in the 
+ * play() method. 
  */
-public class Nightfall // implements Game
+public class NightfallGame implements Game
 {
+    /**
+     * Field to store the game's name.
+     */
+    private String gameName = "Nightfall";
 
     /**
      * A list of all Rooms in the game.
@@ -15,7 +22,7 @@ public class Nightfall // implements Game
      * For a separate file that allows us to define to-be-serialized Rooms via
      * commandline, a dynamic structure will be necessary.
      */
-    private static Room[] allRooms;
+    private Room[] allRooms;
 
 
     /**
@@ -23,7 +30,7 @@ public class Nightfall // implements Game
      * At any one time, the player must be in one and only one place, and they
      * need to have location described to them.
      */
-    private static Room currentRoom;
+    private Room currentRoom;
 
     /**
      * The focus variable is key for allowing a player to focus on an
@@ -37,22 +44,46 @@ public class Nightfall // implements Game
      */
     //private Focusable focus = new Room("Garbage In, Garbage Out");
 
-    /**
-     * This is a static code block in Java, a tool I learned about recently and
-     * think will benefit this sort of project. Off of the bat, we will need to
-     * manually create the data for rooms and features, but serializing objects
-     * into files will be a key speed up step for implementing written story
-     * ideas. 
-     */
-    static
+    NightfallGame()
     {
-        // Create or read from file all rooms and contained features in a loop
+        // For now, create some basic rooms for testing purposes, speaking of which tests first.
+        // This style is not ideal, but (de)serializing objects will take a lot of work to build.
+        allRooms = new Room[]
+        {
+            new Room("Room A",
+                """
+                This is the CS Student Lounge.
+                The room contains the 9 tables, 23 chairs, and several students.
+                Little of consequence is present, though you notice at least one student is looking at you at all times.
+                """
+            ),
+            new Room("Room B",
+                """
+                This is a hallway.
+                There is someone at the far end, staring at a laptop.
+                Odds are they have no information for you, but they may be watching you.
+                """
+            ),
+            new Room("Room C",
+                """
+                This is a classroom.
+                There are more than a dozen tables and twice as many chairs.
+                Something happened here, it shouldn't have happened, but it did.
+                There are no physical signs remaining, but the feeling in your stomach sinks lower. 
+                """
+            )
+        };
     }
 
-    
-    public static void main(String[] args)
-    {
+    private static void sopl(String s) { System.out.println(s); }
 
+    private static void sop(String s){ System.out.print(s); }
+
+    public String getName() {return this.gameName; }
+
+    
+    public Optional<Integer> play()
+    {
         // Start Up
 
         // DEV-NOTE The following is a simple print utility to avoid typing the full line every time.
@@ -64,7 +95,6 @@ public class Nightfall // implements Game
         At this phase of development, the game does not accomplish anything aside from presenting this message to you, dear player.
         Please check in again soon, as development will continue.
         """
-
         );
 
         // Room objects do not yet exist, so they cannot be loaded
@@ -72,7 +102,7 @@ public class Nightfall // implements Game
 
         if (allRooms == null)
         {
-            System.exit(1);
+            return Optional.empty();
         }
 
         currentRoom = allRooms[0];
@@ -90,7 +120,8 @@ public class Nightfall // implements Game
             playerQuits = true;
         }
 
-        System.exit(0);
+        // Additional thought should be given to how we score the game. 
+        return Optional.of(1);
 
         /**
          * NOTE:: Any mention of features/focusables are not necessary to represent a graph of rooms.
@@ -129,11 +160,99 @@ public class Nightfall // implements Game
          *              
          * 
          */
+    }    
+}
+
+/**
+ * The Room class will represent places the player can be and travel between. 
+ */
+class Room //extends Focusable
+{
+
+    /**
+     * A list of rooms that are adjacent to the current Room.
+     * Thought should be put into the type of list used here, as there could be
+     * QoL benefit to reordering the list based on what room the player last
+     * visted, or maybe the order being consistent no matter where you entered
+     * from is preferable.
+     */
+    private Room[] adjacentRooms;
+
+    /**
+     * A list of all features contained in the room.
+     * Again, thought to what list type this is and why is advised.
+     * If we want to have a monster roaming around that can be interacted with
+     * in some way, these lists will need to change in size.
+     */
+    // private Feature[] features;
+
+
+    /**
+     * Note: When the Focusable interface is fleshed out, the description will
+     * be removed from this class and the field from Focusable will be used.
+     * 
+     * This field should contain details about what is in this room.
+     */
+    private String description;
+
+    /**
+     * This field should contain a 1-3 word name of the room, used when other
+     * rooms are describing their adjascent rooms.
+     * Note: This is not a unique ID
+     */
+    private String tagline;
+
+    /**
+     * A unique ID used to reference Rooms without needing completely valid
+     * object references.
+     * 
+     * May deprecate, deprecates the Util class
+     */
+    private int ID;
+
+    /**
+     * 
+     * @param tagline
+     * @param description
+     */
+
+    Room(String tagline, String description)
+    {
+        this.tagline = tagline;
+        this.description = description;
+        this.ID = Util.getNewID();
     }
 
+    public String getDescription()
+    {
+        return this.description;
+    }
 
+    public void describe()
+    {
+        sopl(this.getDescription());
+    }
+
+    public String getTagLine() { return this.tagline; }
+
+    public int getID() { return this.ID; }
+ 
     private static void sopl(String s) { System.out.println(s); }
 
     private static void sop(String s){ System.out.print(s); }
-    
+}
+
+class Util
+{
+    private static AtomicInteger ID_COUNTER;
+
+    static
+    {
+        ID_COUNTER = new AtomicInteger(1000);
+    }
+
+    public static int getNewID()
+    {
+        return ID_COUNTER.getAndIncrement();
+    }
 }
