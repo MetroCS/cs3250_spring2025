@@ -48,28 +48,31 @@ public class NightfallGame implements Game
     {
         // For now, create some basic rooms for testing purposes, speaking of which tests first.
         // This style is not ideal, but (de)serializing objects will take a lot of work to build.
+        // NOTE:: The indentation of the """ strings should NOT BE CHANGED as this indents the output
+        //      for clarity.
         allRooms = new Room[]
         {
             new Room("Room A",
                 """
-                This is the CS Student Lounge.
-                The room contains the 9 tables, 23 chairs, and several students.
-                Little of consequence is present, though you notice at least one student is looking at you at all times.
+                    This is the CS Student Lounge.
+                    The room contains the 9 tables, 23 chairs, and several students.
+                    Little of consequence is present, though you notice at least one student is looking at you at all times.
                 """
             ),
             new Room("Room B",
                 """
-                This is a hallway.
-                There is someone at the far end, staring at a laptop.
-                Odds are they have no information for you, but they may be watching you.
+                    This is a hallway.
+                    There is someone at the far end, staring at a laptop.
+                    Odds are they have no information for you, but they may be watching you.
                 """
             ),
             new Room("Room C",
                 """
-                This is a classroom.
-                There are more than a dozen tables and twice as many chairs.
-                Something happened here, it shouldn't have happened, but it did.
-                There are no physical signs remaining, but the feeling in your stomach sinks lower. 
+                    This is a classroom.
+                    There are more than a dozen tables and twice as many chairs.
+                    There are no people in the room.
+                    Something happened here, it shouldn't have happened, but it did.
+                    There are no physical signs remaining, but the feeling in your stomach sinks lower. 
                 """
             )
         };
@@ -99,7 +102,6 @@ public class NightfallGame implements Game
 
         // Room objects do not yet exist, so they cannot be loaded
         // Note the first room in the loaded list will always be assumed to be the starting room.
-
         if (allRooms == null)
         {
             return Optional.empty();
@@ -131,6 +133,7 @@ public class NightfallGame implements Game
          * Load Room objects (hand written or read from file)
          * Locate starting room and assign to currentRoom and to current Focusable.
          * Complete any other load tasks
+         * Wait to begin game until user inputs that they are ready (Press Enter to begin)
          * 
          * Loop Start:
          *      if currentRoom != focus
@@ -230,7 +233,13 @@ class Room //extends Focusable
 
     public void describe()
     {
-        sopl(this.getDescription());
+        String desc = this.getDescription();
+        //if (desc.contains("\n")) desc.replace("\n", "\n\t");
+        sopl(
+            "Room: "+ this.getTagLine()
+            + System.lineSeparator()
+            + desc
+            );
     }
 
     public String getTagLine() { return this.tagline; }
