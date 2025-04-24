@@ -1,104 +1,132 @@
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.io.InputStream;
+import java.util.*;
 
 /**
- * A traditional Hangman game.
- * The player attempts to guess a secret word by guessing letters
- * one at a time.
- * Each incorrect guess reduces the number of remaining tries.
- * Duplicate guesses and non‐alphabetic input are ignored.
- * A full‐word guess can win immediately.
- * @version 1
+ * A conventional Hangman game playable from the command line.
+ * Implements:
+ *  - 6 incorrect guesses → complete hangman (head, body, arms, legs)
+ *  - Guess single letters or full word (costs 1 try on wrong)
+ *  - Repeated or non-alphabetic guesses are ignored
+ *  - Case-insensitive; words drawn from a small hardcoded list
+ *  - play() returns Optional.of(score) where score = remaining tries on win, or 0 on loss
  */
 public class HangmanGame implements Game {
-    private final String secret;
-    private final Set<Character> guessed = new HashSet<>();
-    private int remainingTries = 6;
-    private boolean fullWordGuessed = false;
+    //─── config ────────────────────────────────────────────────────────────────
+    private static final int MAX_TRIES = /* TODO: number of allowed wrong guesses */;
+    private static final List<String> WORDS = Arrays.asList(
+        /* TODO: your default word list */
+    );
+    private static final String[] HANGMAN_STATES = {
+        /* TODO: ASCII art stages from 0..MAX_TRIES */
+    };
 
-    public HangmanGame(String secret) {
-        if (secret == null || secret.isEmpty()) {
-            throw new IllegalArgumentException("Secret word must be non‐empty");
-        }
-        this.secret = secret.toLowerCase();
+    //─── instance state ────────────────────────────────────────────────────────
+    private String secret;
+    private final Set<Character> guessedLetters = new LinkedHashSet<>();
+    private int remainingTries;
+    private boolean fullWordGuessed;
+    private final Scanner scanner;
+
+    //─── constructors ────────────────────────────────────────────────────────────
+
+    /** Default—uses System.in and picks a random word */
+    public HangmanGame() {
+        this(System.in, /* pick random from WORDS */);
     }
 
+    /** For testing/injection; uses given InputStream & secret */
+    public HangmanGame(InputStream in, String secret) {
+        this.scanner = new Scanner(in);
+        // TODO: validate and set secret
+        // TODO: initialize remainingTries and fullWordGuessed
+    }
+
+    //─── Game interface ─────────────────────────────────────────────────────────
+
+    /** The menu name for this game */
     @Override
     public String getName() {
         return "Hangman";
     }
 
-    /** Placeholder – not used by the tests */
+    /**
+     * Main loop: draw, prompt for guess, update state, repeat.
+     * @return remainingTries if win, or 0 if loss
+     */
     @Override
     public Optional<Integer> play() {
-        System.out.println("[Playing Hangman – not invoked by tests]");
-        return Optional.of(remainingTries);
+        // TODO: while not won/lost:
+        //   - print HANGMAN_STATES[MAX_TRIES - remainingTries]
+        //   - print getMaskedWord()
+        //   - print guessedLetters
+        //   - read line, decide letter vs word
+        //   - call guessLetter(...) or guessWord(...)
+        //   - print feedback
+        // TODO: after loop, print final message and return score
+        return Optional.empty();
     }
 
-    /**
-     * Guess a single character.
-     * @param c the character to guess
-     * @return true if the character is in the secret word; false otherwise
-     */
-    public boolean guessLetter(char c) {
-        c = Character.toLowerCase(c);
-        // ignore non‑a–z
-        if (c < 'a' || c > 'z') {
-            return false;
-        }
-        // if already guessed, do nothing
-        if (guessed.contains(c)) {
-            return secret.indexOf(c) >= 0;
-        }
-        guessed.add(c);
-        if (secret.indexOf(c) >= 0) {
-            return true;
-        } else {
-            remainingTries--;
-            return false;
-        }
+    //─── core logic ─────────────────────────────────────────────────────────────
+
+    /** Attempt one letter; return true if correct, false otherwise */
+    public boolean guessLetter(char ch) {
+        // TODO: ensureActive()
+        // TODO: normalize, ignore non-alpha & repeats
+        // TODO: add to guessedLetters, adjust remainingTries
+        return false;
     }
 
-    /**
-     * Guess the entire word.
-     * @param attempt the full‑word attempt
-     * @return true if correct; false (and lose one try) otherwise
-     */
+    /** Attempt full word; return true if correct, false otherwise */
     public boolean guessWord(String attempt) {
-        if (attempt == null) {
-            return false;
-        }
-        if (attempt.equalsIgnoreCase(secret)) {
-            fullWordGuessed = true;
-            return true;
-        } else {
-            remainingTries--;
-            return false;
-        }
+        // TODO: ensureActive()
+        // TODO: trim/null check
+        // TODO: if match → fullWordGuessed, else remainingTries--
+        return false;
     }
 
-    /** How many lives remain (starts at 6) */
-    public int getRemainingTries() {
-        return remainingTries;
-    }
+    //─── state queries ──────────────────────────────────────────────────────────
 
-    /** True once all letters have been revealed or full‑word guessed */
+    /** True once all letters revealed or full-word guessed */
     public boolean isWon() {
-        if (fullWordGuessed) {
-            return true;
-        }
-        // check whether every distinct letter has been guessed
-        for (char c : secret.toCharArray()) {
-            if (!guessed.contains(c)) {
-                return false;
-            }
-        }
-        return true;
+        // TODO: return true if fullWordGuessed or every letter in secret is guessed
+        return false;
     }
 
-    /** True if out of tries before winning */
+    /** True if out of tries and not won */
     public boolean isLost() {
-        return remainingTries <= 0 && !isWon();
+        // TODO: return remainingTries <= 0 && !isWon()
+        return false;
+    }
+
+    /** Masked view, e.g. "_ p p _ e" */
+    public String getMaskedWord() {
+        // TODO: build string with '_' or revealed letter
+        return "";
+    }
+
+    //─── test helpers ───────────────────────────────────────────────────────────
+
+    /** For tests: letters guessed so far */
+    Set<Character> getGuessedLetters() {
+        // TODO
+        return null;
+    }
+
+    /** For tests: how many tries remain */
+    int getRemainingTries() {
+        // TODO
+        return 0;
+    }
+
+    /** For tests: set a custom secret word */
+    void setSecretWord(String newSecret) {
+        // TODO: validate alphabetic & non-empty, set secret
+    }
+
+    //─── internals ───────────────────────────────────────────────────────────────
+
+    /** Throws if game already won or lost */
+    private void ensureActive() {
+        // TODO
     }
 }
