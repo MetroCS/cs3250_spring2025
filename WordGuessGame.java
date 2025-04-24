@@ -13,7 +13,7 @@ import java.util.Optional;
 class WordGuessGame implements Game {
     public String getName() { return "Word Guess"; }
     public Optional<Integer> play() {
-        System.out.println("[Playing Word Guess - You will have a limited number of attempts to guess a secert 5 letter word.]");
+        System.out.println("[Playing Word Guess - You will have a limited number of attempts to guess a secret 5 letter word.]");
 	System.out.println("After each guess, the game will indicate whether the guess is correct.");
 	System.out.println("Your score is determined by the number of attempts remaining after you guessed the word correctly!");
         return Optional.empty();
