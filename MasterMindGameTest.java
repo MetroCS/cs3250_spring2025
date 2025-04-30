@@ -2,6 +2,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashSet;
+
 public class MasterMindGameTest {
 
     private MasterMindGame mm;
@@ -53,33 +55,28 @@ public class MasterMindGameTest {
 
     @Test
     public void testCodeRepetition() {
+        /*
+         * I was curious as to the odds of an overlap, and before spending ages
+         * rerunning "ant test" to no avail, I checked via Wolfram Alpha.
+         * It appears that 10,000 choose 100 (100 codes being checked, and 
+         * values from 0000 to 9999) is on the order of 6 * 10^241. Code
+         * collisions are very unlikely given that many possible unique
+         * combinations.
+         */
         int count = 100;
-        String[] codes = new String[count];
+        HashSet<String> codes = new HashSet<>(count);
         for (int i = 0; i < count; i++) {
-            codes[i] = mm.generateCode();
+            codes.add(mm.generateCode());
         }
 
         // Commented below after ensuring code equality check is correct
-        //printCodes(codes);
-        assertEquals(0, checkMatches(codes));
+        // printCodes(codes);
+        assertEquals(count, codes.size());
     }
 
-    private static void printCodes(final String[] in) {
+    private static void printCodes(final HashSet<String> in) {
         for (String i: in) {
             System.out.println(i);
         }
-    }
-
-    private static int checkMatches(final String[] in) {
-        int out = 0;
-        for (int i = 0; i < in.length - 1; i++) {
-            for (int j = 1; j < in.length; j++) {
-                //Does this comparison actually test code equality
-                if (in[i].equals(in[j])) {
-                    out++;
-                }
-            }
-        }
-        return out;
     }
 }

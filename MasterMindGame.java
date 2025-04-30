@@ -1,4 +1,5 @@
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * A code-breaking game where the app selects a sequence of symbols, and
@@ -22,8 +23,12 @@ class MasterMindGame implements Game {
         return Optional.empty();
     }
 
-    public String generateCode()
-    {
-        return "0000";
+    public String generateCode() {
+        Random r = new Random(System.nanoTime());
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            out.append(VALID_CHARACTER[r.nextInt(10)]);
+        }
+        return out.toString();
     }
 }
