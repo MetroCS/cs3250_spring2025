@@ -33,7 +33,7 @@ public class MasterMindGameTest {
     private static int checkIncorrectCharacters(final String[] in) {
         int out = 0;
         for (int i = 0; i < in.length; i++) {
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < in[i].length(); j++) {
                 if (!contains(VALID_CHARACTER, in[i].charAt(j))) {
                     out++;
                 }
