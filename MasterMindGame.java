@@ -24,7 +24,6 @@ class MasterMindGame implements Game {
 
     public String generateCode()
     {
-        //Deliberately not 4 characters
-        return "000";
+        return "0000";
     }
 }

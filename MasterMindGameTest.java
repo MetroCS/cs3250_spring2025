@@ -34,7 +34,7 @@ public class MasterMindGameTest {
         int out = 0;
         for (int i = 0; i < in.length; i++) {
             for (int j = 0; j < 4; j++) {
-                if (contains(VALID_CHARACTER, in[i].charAt(j))) {
+                if (!contains(VALID_CHARACTER, in[i].charAt(j))) {
                     out++;
                 }
             }
@@ -60,7 +60,7 @@ public class MasterMindGameTest {
         }
 
         // Commented below after ensuring code equality check is correct
-        printCodes(codes);
+        //printCodes(codes);
         assertEquals(0, checkMatches(codes));
     }
 
