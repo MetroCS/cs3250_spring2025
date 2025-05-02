@@ -290,10 +290,6 @@ class Room //extends Focusable
     private static void sop(String s){ System.out.print(s); }
 }
 
-class Doorway {
-    
-}
-
 class Util
 {
     private static AtomicInteger ID_COUNTER;
