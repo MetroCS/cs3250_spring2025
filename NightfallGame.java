@@ -46,33 +46,40 @@ public class NightfallGame implements Game
 
     NightfallGame()
     {
-        // For now, create some basic rooms for testing purposes, speaking of which tests first.
-        // This style is not ideal, but (de)serializing objects will take a lot of work to build.
-        // NOTE:: The indentation of the """ strings should NOT BE CHANGED as this indents the output
-        //      for clarity.
-        allRooms = new Room[]
+        // For now, create some basic rooms for testing purposes, speaking of
+        // which tests first. This style is not ideal, but (de)serializing
+        // objects will take a lot of work to build.
+        // NOTE:: The indentation of the """ strings should NOT BE CHANGED as
+        //        this indents the output for clarity.
+        this.allRooms = new Room[]
         {
             new Room("Room A",
                 """
                     This is the CS Student Lounge.
-                    The room contains the 9 tables, 23 chairs, and several students.
-                    Little of consequence is present, though you notice at least one student is looking at you at all times.
+                    The room contains the 9 tables, 23 chairs, and several
+                    students.
+                    Little of consequence is present, though you notice at
+                    least one student is looking at you at all times.
                 """
             ),
             new Room("Room B",
                 """
                     This is a hallway.
                     There is someone at the far end, staring at a laptop.
-                    Odds are they have no information for you, but they may be watching you.
+                    Odds are they have no information for you, but they may be
+                    watching you.
                 """
             ),
             new Room("Room C",
                 """
                     This is a classroom.
-                    There are more than a dozen tables and twice as many chairs.
+                    There are more than a dozen tables and twice as many
+                    chairs.
                     There are no people in the room.
-                    Something happened here, it shouldn't have happened, but it did.
-                    There are no physical signs remaining, but the feeling in your stomach sinks lower. 
+                    Something happened here, it shouldn't have happened, but it
+                    did.
+                    There are no physical signs remaining, but the feeling in
+                    your stomach sinks lower.
                 """
             )
         };
@@ -89,19 +96,23 @@ public class NightfallGame implements Game
     {
         // Start Up
 
-        // DEV-NOTE The following is a simple print utility to avoid typing the full line every time.
+        // DEV-NOTE The following is a simple print utility to avoid typing the
+        // full line every time.
         sopl(
 
         """
         Greetings and Welcome to Nightfall.
-        This tech demo has been created as the major project of a class on Software Development.
-        At this phase of development, the game does not accomplish anything aside from presenting this message to you, dear player.
+        This tech demo has been created as the major project of a class on
+        Software Development.
+        At this phase of development, the game does not accomplish anything
+        aside from presenting this message to you, dear player.
         Please check in again soon, as development will continue.
         """
         );
 
         // Room objects do not yet exist, so they cannot be loaded
-        // Note the first room in the loaded list will always be assumed to be the starting room.
+        // Note the first room in the loaded list will always be assumed to be
+        // the starting room.
         if (allRooms == null)
         {
             return Optional.empty();
@@ -113,8 +124,10 @@ public class NightfallGame implements Game
 
         while (!playerQuits)
         {
-            // Note API exists to allow a room to describe itself and to supply its description to other objects.
-            // If managing printing with an outside class that does formatting, the latter may be preferrable.
+            // Note API exists to allow a room to describe itself and to supply
+            // its description to other objects. If managing printing with an
+            // outside class that does formatting, the latter may be
+            // preferrable.
             currentRoom.describe();
             
             
@@ -126,14 +139,17 @@ public class NightfallGame implements Game
         return Optional.of(1);
 
         /**
-         * NOTE:: Any mention of features/focusables are not necessary to represent a graph of rooms.
+         * NOTE:: Any mention of features/focusables are not necessary to
+         * represent a graph of rooms.
          * Pseudo:
          * 
          * Print Greeting message X
          * Load Room objects (hand written or read from file)
-         * Locate starting room and assign to currentRoom and to current Focusable.
+         * Locate starting room and assign to currentRoom and to current
+         * Focusable.
          * Complete any other load tasks
-         * Wait to begin game until user inputs that they are ready (Press Enter to begin)
+         * Wait to begin game until user inputs that they are ready 
+         * (Press Enter to begin)
          * 
          * Loop Start:
          *      if currentRoom != focus
@@ -156,14 +172,21 @@ public class NightfallGame implements Game
          *              set focus to currentRoom
          *          if user input matches feature interaction
          *              call on feature object to respond to action
-         *              ?? Does interacting with a feature ever make sense kick the player back to the room as a focus
+         *              ?? Does interacting with a feature ever make sense kick
+         *              the player back to the room as a focus
          * 
-         *      ??How to actually or practically clear the console? Does it make more sense to leave the previous text 
-         *          available in the console for player reference?
+         *      ??How to actually or practically clear the console? Does it 
+         *          make more sense to leave the previous text available in the
+         *          console for player reference?
          *              
          * 
          */
-    }    
+    }   
+
+    public Room[] getAllRooms() {
+        return null;
+    }
+
 }
 
 /**
