@@ -219,7 +219,9 @@ class Room //extends Focusable
      * 
      * This field should contain details about what is in this room.
      */
-    private String description;
+    private String[] description;
+
+    private int state = 0;
 
     /**
      * This field should contain a 1-3 word name of the room, used when other
@@ -242,22 +244,36 @@ class Room //extends Focusable
      * @param description
      */
 
-    Room(String tagline, String description)
-    {
+    Room(String tagline, String description) {
+        this.tagline = tagline;
+        this.description = new String[] {description};
+        this.ID = Util.getNewID();
+    }
+
+    Room(String tagline, String[] description) {
         this.tagline = tagline;
         this.description = description;
         this.ID = Util.getNewID();
     }
 
+    public void forceState(int in) throws IndexOutOfBoundsException {
+        if (in < 0 || in > this.description.length) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            this.state = in;
+        }
+    }
+
+
+
     public String getDescription()
     {
-        return this.description;
+        return this.description[state];
     }
 
     public void describe()
     {
         String desc = this.getDescription();
-        //if (desc.contains("\n")) desc.replace("\n", "\n\t");
         sopl(
             "Room: "+ this.getTagLine()
             + System.lineSeparator()
@@ -272,6 +288,10 @@ class Room //extends Focusable
     private static void sopl(String s) { System.out.println(s); }
 
     private static void sop(String s){ System.out.print(s); }
+}
+
+class Doorway {
+    
 }
 
 class Util
