@@ -44,46 +44,37 @@ public class NightfallGame implements Game
      */
     //private Focusable focus = new Room("Garbage In, Garbage Out");
 
-    NightfallGame()
-    {
+    NightfallGame() {
         // For now, create some basic rooms for testing purposes, speaking of
         // which tests first. This style is not ideal, but (de)serializing
         // objects will take a lot of work to build.
-        // NOTE:: The indentation of the """ strings should NOT BE CHANGED as
-        //        this indents the output for clarity.
-        this.allRooms = new Room[]
+        allRooms = new Room[]
         {
             new Room("Room A",
-                """
-                    This is the CS Student Lounge.
-                    The room contains the 9 tables, 23 chairs, and several
-                    students.
-                    Little of consequence is present, though you notice at
-                    least one student is looking at you at all times.
-                """
+                "\tThis is the CS Student Lounge.\n" +
+                "\tThe room contains the 9 tables, 23 chairs, and several\n" +
+                "\tstudents.\n" +
+                "\tLittle of consequence is present, though you notice at" +
+                "\tleast one student is looking at you at all times."
             ),
             new Room("Room B",
-                """
-                    This is a hallway.
-                    There is someone at the far end, staring at a laptop.
-                    Odds are they have no information for you, but they may be
-                    watching you.
-                """
+                "\tThis is a hallway.\n" +
+                "\tThere is someone at the far end, staring at a laptop.\n" +
+                "\tOdds are they have no information for you, but they may be\n" +
+                "\twatching you."
             ),
             new Room("Room C",
-                """
-                    This is a classroom.
-                    There are more than a dozen tables and twice as many
-                    chairs.
-                    There are no people in the room.
-                    Something happened here, it shouldn't have happened, but it
-                    did.
-                    There are no physical signs remaining, but the feeling in
-                    your stomach sinks lower.
-                """
+                "\tThis is a classroom.\n" +
+                "\tThere are more than a dozen tables and twice as many\n" +
+                "\tchairs.\n" +
+                "\tThere are no people in the room.\n" +
+                "\tSomething happened here, it shouldn't have happened, but it\n" +
+                "\tdid.\n" +
+                "\tThere are no physical signs remaining, but the feeling in\n" +
+                "\tyour stomach sinks lower."
             )
-        };
-    }
+        }; // End Array Declaration
+    } // End Constructor
 
     private static void sopl(String s) { System.out.println(s); }
 
@@ -99,16 +90,13 @@ public class NightfallGame implements Game
         // DEV-NOTE The following is a simple print utility to avoid typing the
         // full line every time.
         sopl(
-
-        """
-        Greetings and Welcome to Nightfall.
-        This tech demo has been created as the major project of a class on
-        Software Development.
-        At this phase of development, the game does not accomplish anything
-        aside from presenting this message to you, dear player.
-        Please check in again soon, as development will continue.
-        """
-        );
+            "\tGreetings and Welcome to Nightfall.\n" +
+            "\tThis tech demo has been created as the major project of a class on\n" +
+            "\tSoftware Development.\n" +
+            "\tAt this phase of development, the game does not accomplish anything\n" +
+            "\taside from presenting this message to you, dear player.\n" +
+            "\tPlease check in again soon, as development will continue."
+            );
 
         // Room objects do not yet exist, so they cannot be loaded
         // Note the first room in the loaded list will always be assumed to be
@@ -256,12 +244,16 @@ class Room //extends Focusable
         this.ID = Util.getNewID();
     }
 
-    public void forceState(int in) throws IndexOutOfBoundsException {
-        if (in < 0 || in > this.description.length) {
-            throw new IndexOutOfBoundsException();
-        } else {
-            this.state = in;
-        }
+    /**
+     * STUB
+     * Sets the state of this Room to the supplied value.
+     * Throws an IndexOutOfBoundsException if the state is invalid for the
+     * number of descriptions for the Room.
+     * @param state
+     * @throws IndexOutOfBoundsException
+     */
+    public void setState(int state) throws IndexOutOfBoundsException {
+        throw new IndexOutOfBoundsException();
     }
 
 

@@ -1,5 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.Test;
 
 public class NighfallGameTest
@@ -35,7 +36,9 @@ public class NighfallGameTest
     private Room A = new Room("A", "The keyword is framerate."),
             B = new Room("B", "Rise so high, in mud you lie."),
             C = new Room("C", "All your base are belong to us"),
-            D = new Room("D", "The ending of the words is ALMSIVI.");
+            D = new Room("D", new String[] {
+                "He was born in the ash among the Velothi, anon Chimer...",
+                "The ending of the words is ALMSIVI."});
     
 
     @Test
@@ -47,18 +50,24 @@ public class NighfallGameTest
     @Test
     public void testRoomBContainsKeyword()
     {
-        assertTrue(B.getDescription().contains("mud"));
+        assertFalse(B.getDescription().contains("Daro"));
     }
 
     @Test
     public void testRoomCContainsKeyword()
     {
-        assertTrue(C.getDescription().contains("belong"));
+        try {
+            C.setState(1);
+            assertEquals(1,0);
+        } catch (IndexOutOfBoundsException ie) {
+            assertEquals(1, 1);
+        }
     }
 
     @Test
     public void testRoomDContainsKeyword()
     {
+        D.setState(1);
         assertTrue(D.getDescription().contains("ALMSIVI"));
     }
     
@@ -76,8 +85,11 @@ public class NighfallGameTest
      * 2. U has Doorway to V
      * 3-7. Room V is connected to W, W to X, X to Y, Y to Z, Z to W.
      * 8-12. Room Pairs are not connected: V-X, W-Y, X-U, Y-V, Z-X, U-Z
-     * 
-     * 
+     */
+    
+     
+
+     /* 
      * Input parsing: If pursued
      * "1" - int 1
      * "7" - int 7
