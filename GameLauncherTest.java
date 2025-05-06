@@ -57,6 +57,8 @@ public class GameLauncherTest {
         testGames.add(new StubGame("Test Game 2", Optional.empty()));
 
         testHistory = new GameHistoryTracker();
+
+        
     }
 
     /**
@@ -95,7 +97,7 @@ public class GameLauncherTest {
         launcher.run();
 
         String output = outContent.toString();
-        assertTrue(output.contains("Please enter a valid number or 'H'."),
+        assertTrue(output.contains("Please enter a valid number or Letters 'H' or 'C'."),
                    "Should reject non-numeric input");
     }
 
@@ -215,7 +217,54 @@ public class GameLauncherTest {
         tempHistoryFileName = tempDir.resolve("testHistory.dat").toString();
         launcher = new GameLauncher(scanner, testHistory, testGames, tempHistoryFileName);
     }
+    /**
+     * Tests to see if Clear History can be selected by user.
+     * @param input   Input string to simulate via Scanner
+     * @param tempDir Derectory to store temporary history file
+     *
+     */
+    @Test 
+    public void testClearHistoryInput(@TempDir final Path tempDir) {
+        provideInput("C\nClear\n0\n", tempDir);
+        launcher.run();
 
+        String output = outContent.toString();
+        assertTrue(output.contains("Are you sure"),
+                   "Should display history header.");
+    }
+
+    /**
+     * Tests to see if Save file is cleared for clearHistory
+     * @param input   Input string to simulate via Scanner
+     * @param tempDir Derectory to store temporary history file
+     */
+    @Test
+    public void testClearHistorySaveFile(@TempDir final Path tempDir) throws IOException {
+        Path tempHistoryFile
+            = tempDir.resolve("test_history_output.dat");
+        tempHistoryFileName = tempHistoryFile.toString();
+
+        GameLauncher gLauncher = new GameLauncher(
+                new Scanner(new ByteArrayInputStream("1\n2\n1\n0\n".getBytes())),
+                testHistory,
+                testGames,
+                tempHistoryFileName
+        );
+
+        gLauncher.run();
+        gLauncher.saveHistory();
+
+        System.out.println(Files.size(tempHistoryFile));
+        testHistory.clearHistory(tempHistoryFileName);
+
+        assertTrue(Files.exists(tempHistoryFile),
+                   "File should exists." + Files.size(tempHistoryFile));
+        assertTrue(Files.size(tempHistoryFile) == 150,
+                   "File should be 150. File size is: " + Files.size(tempHistoryFile));
+    }
+
+
+        
     /**
      * Stub implementation of the Game interface used for testing.
      */

@@ -104,24 +104,19 @@ public class GameLauncher {
             }
             System.out.println("0. Exit");
             System.out.println("H. View Game History");
-	    System.out.println("C. Clear Game History");
+            System.out.println("C. Clear Game History");
             System.out.print("Choose a game: ");
 
             String input = this.scanner.nextLine().trim();
             if (input.equalsIgnoreCase("H")) {
                 this.historyTracker.displayHistory();
                 continue;
-            } else if (input.equalsIgnoreCase("C")){
-		System.out.println("Are you sure you want to clear history?\ntype CLEAR to confirm\nor type anything else to cancel.");
-		input = scanner.nextLine();
-		if (input.equals("CLEAR")) {
-		    System.out.println("Clearing History.\n");
-		    historyTracker.clearHistory("history.dat");
-		}
-	
-	    }
+            } else if (input.equalsIgnoreCase("C")) {
+                confirmClearHistory();
+                continue;
+            }
 
-            try {
+          try {
                 int choice = Integer.parseInt(input);
                 if (choice == 0) {
                     running = false;
@@ -135,9 +130,28 @@ public class GameLauncher {
                     System.out.println("Invalid choice.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number or 'H'.Please enter a valid number or Letters 'H' or 'C'.");
+                System.out.println(
+                    "Please enter a valid number or Letters H or C.");
             }
         }
+    }
+
+
+    /**
+     * Clears the history after user confirmation.
+     *
+     */
+    private void confirmClearHistory() {
+        System.out.println("Are you sure you want to clear history?");
+        System.out.println("type CLEAR to confirm");
+        System.out.println("or type anything else to cancel.");
+
+        String input = this.scanner.nextLine().trim();
+        if (input.equalsIgnoreCase("clear")) {
+             System.out.println("Clearing History.\n");
+             historyTracker.clearHistory("history.dat");
+         }
+
     }
 
     /**

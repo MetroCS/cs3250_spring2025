@@ -71,11 +71,11 @@ class GameHistoryTracker implements Serializable {
      */
     public void clearHistory(final String filename) {
         statsMap.clear();
-	try {
-	    saveHistory(filename);
-	} catch (IOException e) {
-	    System.out.println("game history save failed: " + e.getMessage());
-	}
+        try {
+            saveHistory(filename);
+        } catch (IOException e) {
+            System.out.println("game history save failed: " + e.getMessage());
+        }
     }
 
     /**
