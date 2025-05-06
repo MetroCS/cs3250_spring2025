@@ -87,7 +87,13 @@ public class NighfallGameTest
      * 8-12. Room Pairs are not connected: V-X, W-Y, X-U, Y-V, Z-X, U-Z
      */
     
-     
+    Room 
+        U,
+        V,
+        W,
+        X,
+        Y,
+        Z;
 
      /* 
      * Input parsing: If pursued
@@ -99,4 +105,36 @@ public class NighfallGameTest
      * 
      * 
      */
+
+    @Test
+    public void testCorrectUserInputSmallValueA() {
+        assertEquals(1, NightfallGame.parseUserInput("1"));
+    }
+
+    @Test
+    public void testCorrectUserInputSmallValueB()
+    {
+        assertEquals(7, NightfallGame.parseUserInput("7"));
+    }
+
+    @Test
+    public void testCorrectUserInputLargeValue()
+    {
+        assertEquals(7100, NightfallGame.parseUserInput("7100"));
+    }
+
+    @Test
+    public void testIncorrectUserInputNumberWord() {
+        assertEquals(Integer.MIN_VALUE, NightfallGame.parseUserInput("one"));
+    }
+
+    @Test
+    public void testIncorrectUserInput_0() {
+        assertEquals(Integer.MIN_VALUE, NightfallGame.parseUserInput("0"));
+    }
+
+    @Test
+    public void testIncorrectUserInput_Nightfall() {
+        assertEquals(Integer.MIN_VALUE, NightfallGame.parseUserInput("nightfall"));
+    }
 }

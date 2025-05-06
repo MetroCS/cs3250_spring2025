@@ -117,7 +117,7 @@ public class NightfallGame implements Game
             // outside class that does formatting, the latter may be
             // preferrable.
             currentRoom.describe();
-            
+            int temp = parseUserInput("3");
             
             // Temporary: exit to ensure the program run and exits safely.
             playerQuits = true;
@@ -170,6 +170,16 @@ public class NightfallGame implements Game
          * 
          */
     }   
+
+    /**
+     * STUB
+     * Accepts a String that is to be parsed.
+     * @return The integer equivalent of the first token of the input if
+     * parseable. If not, returns the minimum value storable by the int
+     */
+    public static int parseUserInput(String string) {
+        return -1;
+    }
 
     public Room[] getAllRooms() {
         return null;
@@ -275,11 +285,36 @@ class Room //extends Focusable
 
     public String getTagLine() { return this.tagline; }
 
-    public int getID() { return this.ID; }
+    public int getID()
+    {
+        return this.ID;
+    }
  
-    private static void sopl(String s) { System.out.println(s); }
+    private static void sopl(String s)
+    {
+        System.out.println(s);
+    }
 
-    private static void sop(String s){ System.out.print(s); }
+    private static void sop(String s)
+    {
+        System.out.print(s);
+    }
+
+    /**
+     * STUB
+     * Accepts a String that is to be parsed.
+     * @return The integer equivalent of the first token of the input if
+     * parseable. If not, returns the minimum value storable by the int type.
+     */
+    static int parseUserInput(String input)
+    {
+        return -1;
+    }
+}
+
+class Doorway
+{
+
 }
 
 class Util
