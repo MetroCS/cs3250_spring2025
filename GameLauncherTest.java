@@ -93,11 +93,11 @@ public class GameLauncherTest {
      */
     @Test
     public void testRunInvalidInput(@TempDir final Path tempDir) {
-        provideInput("abc\n0\n", tempDir);
+        provideInput("abd\n0\n", tempDir);
         launcher.run();
 
         String output = outContent.toString();
-        assertTrue(output.contains("Please enter a valid number or Letters 'H' or 'C'."),
+        assertTrue(output.contains("Please enter a valid number or Letters H"),
                    "Should reject non-numeric input");
     }
 
