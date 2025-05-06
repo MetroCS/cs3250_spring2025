@@ -12,14 +12,14 @@ import java.util.Optional;
  * For example, if the secret word is "BRICK" and the player guesses
  *   "CRANE", the feedback would be "2 letters match"
  *   (because of the R and C).
- * 
+ *
  * Scoring Recommendation:
  * - You may give the player a fixed number of guesses (e.g., 10).
  * - A score could be calculated as (guesses remaining) or
  *     (max guesses - actual guesses used).
  * - You could also assign a bonus if they guess the word early or
  *     penalize for inefficient guessing.
- * 
+ *
  * Feedback Advice:
  * - Ensure the feedback count does not double-count repeated letters.
  *   For example, if the secret word has only one 'C' and the guess has two
@@ -52,9 +52,13 @@ public class JottoGame implements Game {
 
     @Override
     public Optional<Integer> play() {
-        System.out.println("[Jotto] Guess the secret "
-                           + WORD_LENGTH + "-letter word. "
-                           + "You will be shown how many letters matched.");
+        System.out.println("[Jotto] Guess a secret word of "
+                           + WORD_LENGTH + " letters. "
+                           + System.lineSeparator()
+                           + "You will be shown how many letters matched."
+                           + System.lineSeparator()
+                           + "Ex: \"BRICK\" matches \"BUILD\" by two "
+                           + "letters: \"B\" and \"I\". ");
         int attemptsLeft = MAX_GUESSES;
 
         while (attemptsLeft > 0) {
