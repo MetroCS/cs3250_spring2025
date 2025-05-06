@@ -10,12 +10,19 @@ import java.util.Optional;
  * <pre>
  * Manages board state and the display of revealed vs. hidden tiles.
  * </pre>
- * @version 1
+ * @version 2.1
  */
 class MemoryMatchGame implements Game {
-    public String getName() { return "Memory Match"; }
+    public String getName() {
+      return "Memory Match";
+    }
     public Optional<Integer> play() {
-        System.out.println("[Playing Memory Match - Placeholder]");
+    System.out.println("Welcome, you are now playing Memory Match");
+    System.out.println("Flip items to match pairs");
+    System.out.println("If items don't match flip over, go again");
+    System.out.println("When all items are matched you win");
+    System.out.println("Have fun!!!");
         return Optional.empty();
     }
 }
+
