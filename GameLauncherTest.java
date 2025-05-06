@@ -57,8 +57,6 @@ public class GameLauncherTest {
         testGames.add(new StubGame("Test Game 2", Optional.empty()));
 
         testHistory = new GameHistoryTracker();
-
-        
     }
 
     /**
@@ -223,7 +221,7 @@ public class GameLauncherTest {
      * @param tempDir Derectory to store temporary history file
      *
      */
-    @Test 
+    @Test
     public void testClearHistoryInput(@TempDir final Path tempDir) {
         provideInput("C\nClear\n0\n", tempDir);
         launcher.run();
@@ -264,7 +262,6 @@ public class GameLauncherTest {
     }
 
 
-        
     /**
      * Stub implementation of the Game interface used for testing.
      */
