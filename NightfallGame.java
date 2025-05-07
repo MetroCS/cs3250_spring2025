@@ -184,7 +184,6 @@ public class NightfallGame implements Game
     public Room[] getAllRooms() {
         return null;
     }
-
 }
 
 /**
@@ -200,7 +199,7 @@ class Room //extends Focusable
      * visted, or maybe the order being consistent no matter where you entered
      * from is preferable.
      */
-    private Room[] adjacentRooms;
+    private Doorway[] doors;
 
     /**
      * A list of all features contained in the room.
@@ -266,8 +265,6 @@ class Room //extends Focusable
         throw new IndexOutOfBoundsException();
     }
 
-
-
     public String getDescription()
     {
         return this.description[state];
@@ -300,21 +297,67 @@ class Room //extends Focusable
         System.out.print(s);
     }
 
-    /**
-     * STUB
-     * Accepts a String that is to be parsed.
-     * @return The integer equivalent of the first token of the input if
-     * parseable. If not, returns the minimum value storable by the int type.
-     */
-    static int parseUserInput(String input)
-    {
+    public int getDoorwayCount() {
+        // TODO STUB
         return -1;
+    }
+
+    /**
+     * Calls on the Doorway version of this method to return a Room.
+     * @param in
+     * @return
+     */
+    public Room getAdjacentRoom(int in)
+    {
+        // TODO STUB
+        return null;
+    }
+
+    /**
+     * Returns the Other Room associated with the Doorway object supplied.
+     * Note, if the Doorway supplied does not connect to the Room this method
+     * was called on, the 
+     * 
+     * May become a private method in future
+     * @param door
+     * @return
+     */
+    public Room getAdjacentRoom(Doorway door)
+    {
+        // TODO STUB
+        return door.getOtherRoom(this);
     }
 }
 
 class Doorway
 {
+    /**
+     * The first Room object tracked by this Doorway.
+     * If the {@code requestOther} method is supplied the Room object pointed to by the
+     * field {@code b}, this field is returned.
+     */
+    private Room a;
 
+    /**
+     * The second Room object tracked by this Doorway.
+     * If the {@code requestOther} method is supplied the Room object pointed to by the
+     * field {@code s}, this field is returned.
+     */
+    private Room b;
+
+    Doorway(Room a, Room b){
+        // TODO STUB
+    }
+
+    /**
+     * Returns the other Room connected to by this door way.
+     * If the Room supplied is not one of the tracked Rooms,
+     * returns the supplied room.
+     * */
+    public Room getOtherRoom(Room in) {
+        // TODO STUB
+        return null;
+    }
 }
 
 class Util
