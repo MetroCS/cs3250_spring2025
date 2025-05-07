@@ -75,18 +75,21 @@ public class NightfallGame implements Game
                 "\tyour stomach sinks lower."
             )
         }; // End Array Declaration
-	private int  parseMenuInput(String input, int maxOption) {
-	    try {
-		int n = Integer.parseInt(input); // Try converting input to an integer
-		if (num < 1 || num > maxOption) {
-		    return -1; // Reject numbers outside the valid rane
-		}
-		return num; // Return valid input
-	    } catch (NumberFormatException e) {
-		return -1; // Reject non-integer input like letters, symbols, etx.
-	    }
-	}
     } // End Constructor
+
+        private int  parseUserInput(String input) {
+            int maxOption = 3; // If this should change later, make it configurable or dynamic
+            try {
+                int n = Integer.parseInt(input); // Try converting input to an integer
+                if (num < 1 || num > maxOption) {
+                    return -1; // Reject numbers outside the valid range
+                }
+                return num; // Return valid input
+            } catch (NumberFormatException e) {
+                return -1; // Reject non-integer input like letters, symbols, etc.
+            }
+        }
+
 
     private static void sopl(String s) { System.out.println(s); }
 
@@ -104,35 +107,6 @@ public class NightfallGame implements Game
 
 	while (!playerQuits) {
 	    currentRoom.describe(); // Descrive the current room
-
-	    // Present a numbered list of available actions
-	    sopl("\nWhat would you like to do?");
-	    sopl("1. Move to a new room");
-	    sopl("2. Look around again");
-	    sopl("3. Quit");
-
-	    sop("Enter choice (1-3): "); // Prompts the user to enter a choice
-	    String input = scanner.nextLine().trim(); // Read and trim the input
-
-	    int choice = parseMenuInput(input, 3); // Parse and validate input
-
-	    if (choice == -1) { // If parsing failed or the input was outside range
-		sopl("Invalid input. Please enter a number between 1 and 3.");
-		continue; // Restart loop without proceeding
-	    }
-
-	    switch (choice) { // Handle valid input
-		case 1:
-		    sopl("You try to move... but that's not implemented yet."); // Placeholder
-		    break;
-		case 2:
-		    sopl("You look around again."); // Redisplay current room description
-		    break;
-		case 3:
-		    sopl("You decide to leave the house..."); // Exit condition
-		    playerQuits = true;
-		    break;
-	    }
 	  }
 
 	scanner.close(); // Clean up scanner resource
