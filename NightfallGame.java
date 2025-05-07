@@ -1,5 +1,6 @@
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Scanner;
 
 /**
  * This is an example Main class for the purposes of expressing how I think
