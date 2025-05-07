@@ -74,6 +74,17 @@ public class NightfallGame implements Game
                 "\tyour stomach sinks lower."
             )
         }; // End Array Declaration
+	private int  parseMenuInput(String input, int maxOption) {
+	    try {
+		int n = Integer.parseInt(input); // Try converting input to an integer
+		if (num < 1 || num > maxOption) {
+		    return -1; // Reject numbers outside the valid rane
+		}
+		return num; // Return valid input
+	    } catch (NumberFormatException e) {
+		return -1; // Reject non-integer input like letters, symbols, etx.
+	    }
+	}
     } // End Constructor
 
     private static void sopl(String s) { System.out.println(s); }
@@ -85,46 +96,47 @@ public class NightfallGame implements Game
     
     public Optional<Integer> play()
     {
-        // Start Up
+	Scanner scanner = new Scanner(System.in); // Creates a scanner to read user input from the console
+        
+	currentRoom = allRooms[0]; // Start in the first room
+	boolean playerQuits = false; // Flag to track when the user chooses to exit
 
-        // DEV-NOTE The following is a simple print utility to avoid typing the
-        // full line every time.
-        sopl(
-            "\tGreetings and Welcome to Nightfall.\n" +
-            "\tThis tech demo has been created as the major project of a class on\n" +
-            "\tSoftware Development.\n" +
-            "\tAt this phase of development, the game does not accomplish anything\n" +
-            "\taside from presenting this message to you, dear player.\n" +
-            "\tPlease check in again soon, as development will continue."
-            );
+	while (!playerQuits) {
+	    currentRoom.describe(); // Descrive the current room
 
-        // Room objects do not yet exist, so they cannot be loaded
-        // Note the first room in the loaded list will always be assumed to be
-        // the starting room.
-        if (allRooms == null)
-        {
-            return Optional.empty();
-        }
+	    // Present a numbered list of available actions
+	    sopl("\nWhat would you like to do?");
+	    sopl("1. Move to a new room");
+	    sopl("2. Look around again");
+	    sopl("3. Quit");
 
-        currentRoom = allRooms[0];
+	    sop("Enter choice (1-3): "); // Prompts the user to enter a choice
+	    String input = scanner.nextLine().trim(); // Read and trim the input
 
-        boolean playerQuits = false;
+	    int choice = parseMenuInput(input, 3); // Parse and validate input
 
-        while (!playerQuits)
-        {
-            // Note API exists to allow a room to describe itself and to supply
-            // its description to other objects. If managing printing with an
-            // outside class that does formatting, the latter may be
-            // preferrable.
-            currentRoom.describe();
-            
-            
-            // Temporary: exit to ensure the program run and exits safely.
-            playerQuits = true;
-        }
+	    if (choice == -1) { // If parsing failed or the input was outside range
+		sopl("Invalid input. Please enter a number between 1 and 3.");
+		continue; // Restart loop without proceeding
+	    }
 
-        // Additional thought should be given to how we score the game. 
-        return Optional.of(1);
+	    switch (choice) { // Handle valid input
+		case 1:
+		    sopl("You try to move... but that's not implemented yet."); // Placeholder
+		    break;
+		case 2:
+		    sopl("You look around again."); // Redisplay current room description
+		    break;
+		case 3:
+		    sopl("You decide to leave the house..."); // Exit condition
+		    playerQuits = true;
+		    break;
+	    }
+	  }
+
+	scanner.close(); // Clean up scanner resource
+	return Optional.of(1); // Placeholder return value
+    }
 
         /**
          * NOTE:: Any mention of features/focusables are not necessary to
