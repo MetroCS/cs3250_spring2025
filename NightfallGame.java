@@ -78,16 +78,13 @@ public class NightfallGame implements Game
     } // End Constructor
 
         private int  parseUserInput(String input) {
-            int maxOption = 3; // If this should change later, make it configurable or dynamic
             try {
-                int n = Integer.parseInt(input); // Try converting input to an integer
-                if (num < 1 || num > maxOption) {
-                    return -1; // Reject numbers outside the valid range
-                }
-                return num; // Return valid input
-            } catch (NumberFormatException e) {
-                return -1; // Reject non-integer input like letters, symbols, etc.
-            }
+                String[] tokens = input.trim().split("\\s+"); // Split input into tokens
+		int parsed = Integer.parseInt(tokens[0]); // Try parsing the first token
+		return parsed > 0 ? parsed : Integer.MIN_VALUE; // Reject 0 and negatives
+	    } catch (Exception e) {
+		return Integer.MIN_VALUE;
+	    }
         }
 
 
