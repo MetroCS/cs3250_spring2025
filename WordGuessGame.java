@@ -32,7 +32,7 @@ class WordGuessGame implements Game {
         );
         System.out.println(
             "Your score is determined by the number of attempts remaining"
-            + "after you guessed the word correctly!"
+            + " after you guessed the word correctly!"
         );
         return Optional.empty();
     }
