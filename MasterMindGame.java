@@ -19,7 +19,7 @@ class MasterMindGame implements Game {
  public Optional<Integer> play() {
 
     System.out.println("You are now playing Mastermind");
-    System.out.println("The app selects a sequance of symbols");
+    System.out.println("Guess a randomly generated sequance of numbers");
     System.out.println("The player tries to guess the sequance");
     System.out.println("You have a fixed number of attepmts to guess");
     System.out.println("When you guess correctly you win, have fun!");
